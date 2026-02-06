@@ -11,10 +11,26 @@
   services.desktopManager.gnome.enable = true;
   services.displayManager.gdm.enable = true;
 
+  # Remove Gnome Bloatware
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany         # Browser
+    geary            # Email client
+    showtime         # Video Player
+    yelp             # Help viewer
+    decibels         # Music player
+    gnome-music
+    gnome-tour       # "Welcome to Gnome"
+    gnome-contacts
+    gnome-weather
+    simple-scan
+    snapshot
+  ];
+
   # --- Bootloader ---
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "i915" ];
+
   # --- Networking ---
   networking.hostName = "nix-workstation";
   networking.networkmanager.enable = true;
@@ -57,21 +73,13 @@
     git
     wget
   ];
-  
-  # Remove Gnome Bloatware
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany         # Browser
-    geary            # Email client
-    showtime         # Video Player
-    yelp             # Help viewer
-    decibels         # Music player
-    gnome-music
-    gnome-tour       # "Welcome to Gnome"
-    gnome-contacts
-    gnome-weather
-    simple-scan
-    snapshot
-  ];
+
+  # --- Cleanup ---
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 7d";
+  };
 
   # --- Services ---
   services.openssh.enable = true;
