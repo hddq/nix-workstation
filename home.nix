@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, pkgs-unstable, inputs, ... }:
 
 {
   imports = [
@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
     inputs.helium.defaultPackage."${pkgs.stdenv.hostPlatform.system}"
-    feishin
+    pkgs-unstable.feishin
     obsidian
     fastfetch
     vscode
