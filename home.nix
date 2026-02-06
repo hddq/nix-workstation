@@ -1,6 +1,9 @@
 { config, pkgs, inputs, ... }:
 
 {
+  imports = [
+    ./modules/immich.nix
+  ];
   home.username = "hddq";
   home.homeDirectory = "/home/hddq";
 
