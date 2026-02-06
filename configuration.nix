@@ -57,6 +57,21 @@
     git
     wget
   ];
+  
+  # Remove Gnome Bloatware
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany         # Browser
+    geary            # Email client
+    showtime         # Video Player
+    yelp             # Help viewer
+    decibels         # Music player
+    gnome-music
+    gnome-tour       # "Welcome to Gnome"
+    gnome-contacts
+    gnome-weather
+    simple-scan
+    snapshot
+  ];
 
   # --- Services ---
   services.openssh.enable = true;

@@ -11,19 +11,37 @@
     obsidian
     fastfetch
     vscode
+    mpv
   ];
-
+  
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
+      # Browser
       "text/html" = "zen-beta.desktop";
       "x-scheme-handler/http" = "zen-beta.desktop";
       "x-scheme-handler/https" = "zen-beta.desktop";
       "x-scheme-handler/about" = "zen-beta.desktop";
       "x-scheme-handler/unknown" = "zen-beta.desktop";
+      # mpv
+      "video/mp4" = "mpv.desktop";
+      "video/x-matroska" = "mpv.desktop"; # .mkv
+      "video/webm" = "mpv.desktop";
+      "video/quicktime" = "mpv.desktop";
+      "video/x-flv" = "mpv.desktop";
+      "video/x-msvideo" = "mpv.desktop";  # .avi
     };
   };
 
+  programs.mpv = {
+    enable = true;
+    config = {
+      profile = "gpu-hq";         # High quality rendering
+      vo = "gpu";                 # Use GPU acceleration
+      hwdec = "auto-safe";        # Hardware decoding
+      ytdl-format = "bestvideo[height<=1080]+bestaudio/best";
+    };
+  };
   programs.git = {
     enable = true;
     settings = {
