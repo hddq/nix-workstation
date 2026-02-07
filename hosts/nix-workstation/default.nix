@@ -22,6 +22,12 @@
   networking.hostName = "nix-workstation";
   networking.networkmanager.enable = true;
 
+    networking.firewall = {
+    enable = true;
+    # Localsend
+    allowedTCPPorts = [ 53317 ];
+    allowedUDPPorts = [ 53317 ];
+    };
   # --- User Configuration ---
   users.users.hddq = {
     isNormalUser = true;

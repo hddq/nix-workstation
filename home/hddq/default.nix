@@ -18,6 +18,7 @@
     vscode
     pkgs-unstable.feishin
     thunderbird
+    localsend
   ];
 
   home.stateVersion = "25.11";
