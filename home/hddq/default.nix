@@ -17,6 +17,7 @@
     obsidian
     vscode
     pkgs-unstable.feishin
+    thunderbird
   ];
 
   home.stateVersion = "25.11";
