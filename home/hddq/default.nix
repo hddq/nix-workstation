@@ -11,6 +11,8 @@
   home.username = "hddq";
   home.homeDirectory = "/home/hddq";
 
+  xdg.mimeApps.enable = true;
+
   # --- User Packages ---
   # Only misc stuff here, major stuff goes to features
   home.packages = with pkgs; [
