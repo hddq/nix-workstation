@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   home.packages = [ pkgs.immich-cli ];
@@ -16,9 +16,9 @@
 
       ExecStart = pkgs.writeShellScript "immich-watcher" ''
         echo "🚀 Starting Immich Watchers..."
-        ${pkgs.immich-cli}/bin/immich upload --watch --album "Screenshots" /home/hddq/Pictures/Screenshots &
-        ${pkgs.immich-cli}/bin/immich upload --watch --album "Pictures" /home/hddq/Pictures &
-        ${pkgs.immich-cli}/bin/immich upload --watch --album "Movies" /home/hddq/Movies &
+        ${pkgs.immich-cli}/bin/immich upload --watch --album "Screenshots" ${config.home.homeDirectory}/Pictures/Screenshots &
+        ${pkgs.immich-cli}/bin/immich upload --watch --album "Pictures" ${config.home.homeDirectory}/Pictures &
+        ${pkgs.immich-cli}/bin/immich upload --watch --album "Movies" ${config.home.homeDirectory}/Movies &
         wait
       '';
 
