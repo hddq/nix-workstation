@@ -2,8 +2,8 @@
 
 {
   home.packages = [
-    inputs.zen-browser.packages."${pkgs.system}".default
-    inputs.helium.defaultPackage."${pkgs.system}"
+    inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
+    inputs.helium.defaultPackage."${pkgs.stdenv.hostPlatform.system}"
   ];
 
   xdg.mimeApps.defaultApplications = {
