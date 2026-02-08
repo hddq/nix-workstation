@@ -5,6 +5,15 @@
     fastfetch
   ];
 
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      ll = "ls -l";
+      k = "kubectl";
+      g = "gemini";
+    };
+  };
+
   programs.git = {
     enable = true;
     settings = {
