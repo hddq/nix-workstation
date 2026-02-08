@@ -21,6 +21,8 @@
     pkgs-unstable.feishin
     thunderbird
     localsend
+    element-desktop
+    pkgs-unstable.gemini-cli
   ];
 
   home.stateVersion = "25.11";
