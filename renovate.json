@@ -4,7 +4,9 @@
     "config:best-practices"
   ],
   "timezone": "Europe/Warsaw",
-  "schedule": ["after 10pm"],
+  "schedule": [
+    "after 10pm"
+  ],
   "nix": {
     "enabled": true
   },
@@ -13,9 +15,12 @@
   },
   "packageRules": [
     {
-      "matchPackageNames": ["nixpkgs", "nixos-unstable"],
+      "matchPackageNames": [
+        "nixpkgs",
+        "nixos-unstable"
+      ],
       "groupName": "nixpkgs system updates",
-      "recreateClosed": false
+      "recreateWhen": "auto"
     }
   ]
 }
