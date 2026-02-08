@@ -3,17 +3,20 @@
   "extends": [
     "config:best-practices"
   ],
+  "timezone": "Europe/Warsaw",
+  "schedule": ["after 10pm"],
   "nix": {
     "enabled": true
   },
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 10pm"] 
+    "schedule": ["after 10pm"]
   },
   "packageRules": [
     {
       "matchPackageNames": ["nixpkgs", "nixos-unstable"],
-      "groupName": "nixpkgs system updates"
+      "groupName": "nixpkgs system updates",
+      "recreateWhen": "never"
     }
   ]
 }
