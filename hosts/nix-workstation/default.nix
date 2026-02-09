@@ -18,6 +18,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "i915" ];
 
+  zramSwap.enable = true;
+
   # --- Networking ---
   networking.hostName = "nix-workstation";
   networking.networkmanager.enable = true;
