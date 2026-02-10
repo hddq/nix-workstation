@@ -2,6 +2,17 @@
 
 {
   dconf.settings = {
+    "org/gnome/desktop/background" = {
+      picture-uri = "file://${../../../wallpaper.png}";
+      picture-uri-dark = "file://${../../../wallpaper.png}";
+      picture-options = "zoom";
+    };
+
+    "org/gnome/desktop/screensaver" = {
+      picture-uri = "file://${../../../wallpaper.png}";
+      picture-options = "zoom";
+    };
+
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
