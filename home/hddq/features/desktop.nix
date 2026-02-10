@@ -6,6 +6,10 @@
       color-scheme = "prefer-dark";
     };
 
+    "org/gnome/desktop/peripherals/mouse" = {
+      accel-profile = "flat";
+    };
+
     "org/gnome/mutter" = {
       dynamic-workspaces = false;
     };
