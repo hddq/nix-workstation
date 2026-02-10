@@ -11,6 +11,8 @@
       ll = "ls -l";
       k = "kubectl";
       g = "gemini";
+      nos = "nh os switch";
+      nou = "nh os switch --update";
     };
   };
 

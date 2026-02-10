@@ -6,10 +6,11 @@
   nix.settings.auto-optimise-store = true;
   nixpkgs.config.allowUnfree = true;
 
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 7d";
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 7d --keep 3";
+    flake = "/home/hddq/nixos-config";
   };
 
   # --- Locale & Time ---
