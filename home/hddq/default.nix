@@ -24,6 +24,7 @@
     localsend
     element-desktop
     pkgs-unstable.gemini-cli
+    ddcutil
   ];
 
   home.stateVersion = "25.11";

@@ -12,6 +12,9 @@
   ];
 
   # --- Hardware & Drivers ---
+  hardware.i2c.enable = true;
+  services.udev.packages = [ pkgs.ddcutil ];
+
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [

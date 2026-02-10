@@ -34,7 +34,7 @@
   users.users.hddq = {
     isNormalUser = true;
     description = "hddq";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "i2c" ];
     # shell = pkgs.zsh; 
   };
 
