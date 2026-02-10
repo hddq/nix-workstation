@@ -27,6 +27,13 @@
     LC_TIME = "pl_PL.UTF-8";
   };
 
+  location = {
+    provider = "manual";
+    # Warsaw
+    latitude = 52.2297;
+    longitude = 21.0122;
+  };
+
   # --- Console & Keyboard ---
   console.useXkbConfig = true;
   services.xserver.xkb = {
