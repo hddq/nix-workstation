@@ -6,6 +6,7 @@
     ./features/media.nix
     ./features/cli.nix
     ./features/immich.nix
+    ./features/desktop.nix
   ];
 
   home.username = "hddq";
