@@ -13,6 +13,7 @@
 
         "exec-once" = [
           "hyprctl setcursor Adwaita 24"
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         ];
 
         workspace = [
@@ -123,6 +124,7 @@
        kitty
        rofi
        adwaita-icon-theme
+       polkit_gnome
     ];
   };
 }
