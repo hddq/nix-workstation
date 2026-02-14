@@ -42,6 +42,19 @@
           accel_profile = "flat";
         };
 
+        animations = {
+          enabled = true;
+          bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+          animation = [
+            "windows, 1, 1.75, myBezier"
+            "windowsOut, 1, 1.75, default, popin 80%"
+            "border, 1, 2.5, default"
+            "borderangle, 1, 2, default"
+            "fade, 1, 1.75, default"
+            "workspaces, 1, 1.5, default"
+          ];
+        };
+
         bind = [
           "$mainMod, Q, exec, $terminal"
           "$mainMod, C, killactive,"
