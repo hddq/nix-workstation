@@ -11,6 +11,10 @@
           "HDMI-A-1, 1920x1080@60, -1920x400, 1"
         ];
 
+        "exec-once" = [
+          "hyprctl setcursor Adwaita 24"
+        ];
+
         workspace = [
           "1, monitor:DP-1, default:true"
           "2, monitor:DP-1"
@@ -89,11 +93,23 @@
         name = "Adwaita-dark";
         package = pkgs.gnome-themes-extra;
       };
+      cursorTheme = {
+        name = "Adwaita";
+        package = pkgs.adwaita-icon-theme;
+      };
+    };
+
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.adwaita-icon-theme;
+      name = "Adwaita";
+      size = 24;
     };
     
     home.packages = with pkgs; [
        kitty
        wofi
+       adwaita-icon-theme
     ];
   };
 }
