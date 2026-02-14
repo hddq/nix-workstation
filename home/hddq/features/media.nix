@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  home.packages = [ pkgs.imv ];
+
   programs.mpv = {
     enable = true;
     config = {
@@ -18,5 +20,10 @@
     "video/quicktime" = "mpv.desktop";
     "video/x-flv" = "mpv.desktop";
     "video/x-msvideo" = "mpv.desktop";
+    "image/jpeg" = "imv.desktop";
+    "image/png" = "imv.desktop";
+    "image/gif" = "imv.desktop";
+    "image/webp" = "imv.desktop";
+    "image/bmp" = "imv.desktop";
   };
 }
