@@ -8,6 +8,7 @@
     # --- System Modules ---
     ../../modules/system/core.nix
     ../../modules/system/desktop
+    ../../modules/system/network-shares.nix
     
     # --- Home Manager Integration ---
     inputs.home-manager.nixosModules.home-manager
