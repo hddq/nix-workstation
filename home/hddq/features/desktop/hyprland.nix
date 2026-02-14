@@ -92,6 +92,9 @@
           "$mainMod SHIFT, F2, movetoworkspace, 8"
           "$mainMod SHIFT, F3, movetoworkspace, 9"
           "$mainMod SHIFT, F4, movetoworkspace, 10"
+
+          # Screenshots
+          "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots -f"
         ];
 
         bindm = [
@@ -125,6 +128,10 @@
        rofi
        adwaita-icon-theme
        polkit_gnome
+       grim
+       slurp
+       wl-clipboard
+       hyprshot
     ];
   };
 }
