@@ -7,11 +7,13 @@
     
     # --- System Modules ---
     ../../modules/system/core.nix
-    ../../modules/system/desktop.nix
+    ../../modules/system/desktop
     
     # --- Home Manager Integration ---
     inputs.home-manager.nixosModules.home-manager
   ];
+
+  modules.desktop.env = "hyprland"; # gnome or hyprland
 
   # --- Bootloader ---
   boot.loader.systemd-boot.enable = true;
@@ -42,7 +44,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs pkgs-unstable; };
+    extraSpecialArgs = { inherit inputs pkgs-unstable; osConfig = config; };
     users.hddq = import ../../home/hddq/default.nix;
   };
 
