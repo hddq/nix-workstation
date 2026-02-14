@@ -27,6 +27,11 @@
 
         "$terminal" = "kitty";
         
+        general = {
+          gaps_in = 2;
+          gaps_out = 0;
+        };
+
         input = {
           kb_layout = "us";
           kb_variant = "colemak_dh";
