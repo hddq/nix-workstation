@@ -3,7 +3,27 @@
 {
   home.packages = with pkgs; [
     fastfetch
+    xxh
   ];
+
+  xdg.configFile."xxh/config.xxhc" = {
+    text = ''
+      hosts:
+        ".*":
+          +s: fish
+    '';
+    force = true;
+  };
+
+  programs.fish = {
+    enable = true;
+    shellAliases = {
+      k = "kubectl";
+      g = "gemini";
+      nos = "nh os switch";
+      nou = "nh os switch --update";
+    };
+  };
 
   programs.bash = {
     enable = true;

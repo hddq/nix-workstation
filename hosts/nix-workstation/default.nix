@@ -35,7 +35,7 @@
     isNormalUser = true;
     description = "hddq";
     extraGroups = [ "networkmanager" "wheel" "i2c" ];
-    # shell = pkgs.zsh; 
+    shell = pkgs.fish; 
   };
 
   # --- Home Manager Setup ---

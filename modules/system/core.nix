@@ -62,6 +62,7 @@
     wget
     curl
   ];
+  programs.fish.enable = true;
 
   # --- Services ---
   services.openssh.enable = true;
