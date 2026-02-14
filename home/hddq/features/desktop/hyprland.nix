@@ -60,7 +60,7 @@
           "$mainMod, C, killactive,"
           "$mainMod, M, exit,"
           "$mainMod, V, togglefloating,"
-          "$mainMod, R, exec, wofi --show drun" 
+          "$mainMod, R, exec, rofi -show drun" 
 
           # Move focus with mainMod + arrow keys
           "$mainMod, left, movefocus, l"
@@ -121,7 +121,7 @@
     
     home.packages = with pkgs; [
        kitty
-       wofi
+       rofi
        adwaita-icon-theme
     ];
   };
