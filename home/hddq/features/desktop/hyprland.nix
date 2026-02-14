@@ -14,6 +14,7 @@
         "exec-once" = [
           "hyprctl setcursor Adwaita 24"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+          "hyprpaper"
         ];
 
         workspace = [
@@ -132,6 +133,20 @@
        slurp
        wl-clipboard
        hyprshot
+       hyprpaper
     ];
+
+    services.hyprpaper = {
+      enable = true;
+      settings = {
+        ipc = "on";
+        splash = false;
+        preload = [ "${../../../../wallpaper.png}" ];
+        wallpaper = [
+          "DP-1,${../../../../wallpaper.png}"
+          "HDMI-A-1,${../../../../wallpaper.png}"
+        ];
+      };
+    };
   };
 }
