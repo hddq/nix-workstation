@@ -7,9 +7,24 @@
       settings = {
         "$mainMod" = "SUPER";
         monitor = [
-          "HDMI-A-1, 1920x1080@60, 0x400, 1"
-          "DP-1, 1920x1080@240, 1920x0, 1"
+          "DP-1, 1920x1080@240, 0x0, 1"
+          "HDMI-A-1, 1920x1080@60, -1920x400, 1"
         ];
+
+        workspace = [
+          "1, monitor:DP-1, default:true"
+          "2, monitor:DP-1"
+          "3, monitor:DP-1"
+          "4, monitor:DP-1"
+          "5, monitor:DP-1"
+          "6, monitor:DP-1"
+          "7, monitor:DP-1"
+          "8, monitor:DP-1"
+          "9, monitor:DP-1"
+          "10, monitor:DP-1"
+          "11, monitor:HDMI-A-1, default:true"
+        ];
+
         "$terminal" = "kitty";
         
         input = {
@@ -30,6 +45,30 @@
           "$mainMod, right, movefocus, r"
           "$mainMod, up, movefocus, u"
           "$mainMod, down, movefocus, d"
+
+          # Switch workspaces with mainMod + [1-6, F1-F4]
+          "$mainMod, 1, workspace, 1"
+          "$mainMod, 2, workspace, 2"
+          "$mainMod, 3, workspace, 3"
+          "$mainMod, 4, workspace, 4"
+          "$mainMod, 5, workspace, 5"
+          "$mainMod, 6, workspace, 6"
+          "$mainMod, F1, workspace, 7"
+          "$mainMod, F2, workspace, 8"
+          "$mainMod, F3, workspace, 9"
+          "$mainMod, F4, workspace, 10"
+
+          # Move active window to a workspace with mainMod + SHIFT + [1-6, F1-F4]
+          "$mainMod SHIFT, 1, movetoworkspace, 1"
+          "$mainMod SHIFT, 2, movetoworkspace, 2"
+          "$mainMod SHIFT, 3, movetoworkspace, 3"
+          "$mainMod SHIFT, 4, movetoworkspace, 4"
+          "$mainMod SHIFT, 5, movetoworkspace, 5"
+          "$mainMod SHIFT, 6, movetoworkspace, 6"
+          "$mainMod SHIFT, F1, movetoworkspace, 7"
+          "$mainMod SHIFT, F2, movetoworkspace, 8"
+          "$mainMod SHIFT, F3, movetoworkspace, 9"
+          "$mainMod SHIFT, F4, movetoworkspace, 10"
         ];
 
         bindm = [
