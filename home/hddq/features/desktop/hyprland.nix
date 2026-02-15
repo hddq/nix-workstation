@@ -105,6 +105,11 @@
           # Media Keys
           ", XF86AudioMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"
           ", XF86AudioMicMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --input-volume mute-toggle"
+          ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+          ", XF86AudioPause, exec, ${pkgs.playerctl}/bin/playerctl pause"
+          ", XF86AudioStop, exec, ${pkgs.playerctl}/bin/playerctl stop"
+          ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+          ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
         ];
 
         bindn = [
@@ -155,6 +160,7 @@
        hyprpaper
        pkgs-unstable.swayosd
        brightnessctl
+       playerctl
     ];
 
     services.hypridle = {
