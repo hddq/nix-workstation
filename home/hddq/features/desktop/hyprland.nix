@@ -160,5 +160,12 @@
         ];
       };
     };
+
+    services.gammastep = {
+      enable = true;
+      provider = "manual";
+      latitude = osConfig.location.latitude;
+      longitude = osConfig.location.longitude;
+    };
   };
 }
