@@ -97,7 +97,7 @@
           "$mainMod SHIFT, F4, movetoworkspace, 10"
 
           # Screenshots
-          "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots -f"
+          "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots --freeze"
           
           # Lock Screen
           "$mainMod, L, exec, loginctl lock-session"
