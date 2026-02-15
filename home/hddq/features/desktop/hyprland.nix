@@ -107,6 +107,11 @@
           ", XF86AudioMicMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --input-volume mute-toggle"
         ];
 
+        bindn = [
+          # Caps Lock OSD (pass-through)
+          ", Caps_Lock, exec, sleep 0.1 && ${pkgs-unstable.swayosd}/bin/swayosd-client --caps-lock"
+        ];
+
         binde = [
           ", XF86AudioRaiseVolume, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume raise"
           ", XF86AudioLowerVolume, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume lower"
