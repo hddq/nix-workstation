@@ -1,4 +1,4 @@
-{ config, pkgs, lib, osConfig, ... }:
+{ config, pkgs, pkgs-unstable, lib, osConfig, ... }:
 
 {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
@@ -16,6 +16,7 @@
           "hyprctl setcursor Adwaita 24"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "hyprpaper"
+          "${pkgs-unstable.swayosd}/bin/swayosd-server"
         ];
 
         workspace = [
@@ -97,6 +98,15 @@
 
           # Screenshots
           "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots -f"
+          
+          # Media Keys
+          ", XF86AudioMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"
+          ", XF86AudioMicMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --input-volume mute-toggle"
+        ];
+
+        binde = [
+          ", XF86AudioRaiseVolume, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume raise"
+          ", XF86AudioLowerVolume, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume lower"
         ];
 
         bindm = [
@@ -135,6 +145,7 @@
        wl-clipboard
        hyprshot
        hyprpaper
+       pkgs-unstable.swayosd
     ];
 
     services.hyprpaper = {
