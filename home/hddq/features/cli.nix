@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     fastfetch
     xxh
+    btop
   ];
 
   xdg.configFile."xxh/config.xxhc" = {
