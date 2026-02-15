@@ -99,6 +99,9 @@
           # Screenshots
           "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots -f"
           
+          # Lock Screen
+          "$mainMod, L, exec, loginctl lock-session"
+          
           # Media Keys
           ", XF86AudioMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"
           ", XF86AudioMicMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --input-volume mute-toggle"
@@ -146,7 +149,89 @@
        hyprshot
        hyprpaper
        pkgs-unstable.swayosd
+       brightnessctl
     ];
+
+    services.hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          before_sleep_cmd = "loginctl lock-session";
+          after_sleep_cmd = "hyprctl dispatch dpms on";
+          ignore_dbus_inhibit = false;
+          lock_cmd = "pidof hyprlock || hyprlock";
+        };
+
+        listener = [
+          {
+            timeout = 150;
+            on-timeout = "brightnessctl -s set 10";
+            on-resume = "brightnessctl -r";
+          }
+          {
+            timeout = 300;
+            on-timeout = "loginctl lock-session";
+          }
+          {
+            timeout = 330;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
+
+    programs.hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          disable_loading_bar = true;
+          hide_cursor = true;
+        };
+
+        background = [
+          {
+            monitor = "";
+            path = "screenshot";
+            blur_passes = 2;
+            blur_size = 7;
+          }
+        ];
+
+        input-field = [
+          {
+            monitor = "";
+            size = "200, 50";
+            outline_thickness = 3;
+            dots_size = 0.33;
+            dots_spacing = 0.15;
+            dots_center = true;
+            outer_color = "rgb(151515)";
+            inner_color = "rgb(200, 200, 200)";
+            font_color = "rgb(10, 10, 10)";
+            fade_on_empty = true;
+            placeholder_text = "<i>Password...</i>";
+            hide_input = false;
+            position = "0, -20";
+            halign = "center";
+            valign = "center";
+          }
+        ];
+
+        label = [
+          {
+            monitor = "";
+            text = "$TIME";
+            color = "rgba(200, 200, 200, 1.0)";
+            font_size = 64;
+            font_family = "Noto Sans";
+            position = "0, 80";
+            halign = "center";
+            valign = "center";
+          }
+        ];
+      };
+    };
 
     services.hyprpaper = {
       enable = true;

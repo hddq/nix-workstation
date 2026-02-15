@@ -20,6 +20,7 @@ in
 
     # Unlock Keyring on Login
     security.pam.services.greetd.enableGnomeKeyring = true;
+    security.pam.services.hyprlock = {};
 
     programs.hyprland.enable = true;
     
