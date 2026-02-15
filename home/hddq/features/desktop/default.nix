@@ -1,6 +1,6 @@
 {
   imports = [
     ./gnome.nix
-    ./hyprland.nix
+    ./hyprland/default.nix
   ];
 }
