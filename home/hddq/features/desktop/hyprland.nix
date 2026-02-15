@@ -252,5 +252,55 @@
       latitude = osConfig.location.latitude;
       longitude = osConfig.location.longitude;
     };
+
+    xdg.configFile."swayosd/style.css".text = ''
+      window {
+          background: alpha(#1e1e1e, 0.95); /* Dark background */
+          border-radius: 12px; /* Smaller rounded corners */
+          border: 1px solid alpha(#ffffff, 0.1); /* Subtle border */
+      }
+
+      #container {
+          margin: 12px; /* Reduced margin */
+      }
+
+      #image {
+          margin-bottom: 8px; /* Tighter spacing */
+          color: #ffffff; /* White icon */
+      }
+
+      progressbar {
+          min-height: 4px; /* Thinner bar */
+          border-radius: 999px;
+          background: transparent;
+          border: none;
+      }
+
+      trough {
+          min-height: 4px;
+          border-radius: 999px;
+          background: alpha(#ffffff, 0.2); /* Faint track */
+          border: none;
+      }
+
+      progress {
+          min-height: 4px;
+          border-radius: 999px;
+          background: #3584e4; /* GNOME blue accent */
+          border: none;
+      }
+
+      label {
+          color: #ffffff;
+          font-weight: bold;
+          margin-top: 4px;
+          font-size: 14px;
+      }
+    '';
+
+    xdg.configFile."swayosd/config.toml".text = ''
+      [server]
+      show_percentage = true
+    '';
   };
 }
