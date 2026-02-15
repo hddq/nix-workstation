@@ -18,7 +18,7 @@
   # Only misc stuff here, major stuff goes to features
   home.packages = with pkgs; [
     obsidian
-    vscode
+    pkgs-unstable.vscode
     pkgs-unstable.feishin
     thunderbird
     localsend
