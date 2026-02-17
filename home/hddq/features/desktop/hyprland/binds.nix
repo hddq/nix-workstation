@@ -43,6 +43,9 @@
           # Screenshots
           "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots --freeze"
           
+          # Waybar
+          "$mainMod, B, exec, pkill -SIGUSR1 waybar"
+
           # Lock Screen
           "$mainMod, L, exec, loginctl lock-session"
           
