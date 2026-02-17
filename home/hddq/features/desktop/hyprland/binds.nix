@@ -51,7 +51,7 @@
         "$mainMod, B, exec, pkill -SIGUSR1 waybar"
 
         # Lock Screen
-        "$mainMod, L, exec, loginctl lock-session"
+        "$mainMod, L, exec, pidof hyprlock || hyprlock"
 
         # Media Keys
         ", XF86AudioMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"

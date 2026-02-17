@@ -3,6 +3,7 @@
     fastfetch
     xxh
     btop
+    procps
   ];
 
   xdg.configFile."xxh/config.xxhc" = {
