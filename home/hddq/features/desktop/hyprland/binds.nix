@@ -11,7 +11,7 @@
         "$mainMod, Q, exec, $terminal"
         "$mainMod, C, killactive,"
         "$mainMod, M, exit,"
-        "$mainMod, V, togglefloating,"
+        "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mainMod, R, exec, rofi -show drun"
 
         # Move focus with mainMod + arrow keys

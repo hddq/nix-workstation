@@ -6,6 +6,11 @@
   ...
 }: {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
+    home.packages = with pkgs; [
+      wl-clipboard
+      cliphist
+    ];
+
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
@@ -21,6 +26,8 @@
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
           "hyprpaper"
           "${pkgs-unstable.swayosd}/bin/swayosd-server"
+          "wl-paste --type text --watch cliphist store"
+          "wl-paste --type image --watch cliphist store"
         ];
 
         workspace = [
