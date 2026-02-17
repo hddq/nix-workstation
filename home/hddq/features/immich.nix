@@ -1,18 +1,20 @@
-{ pkgs, config, ... }:
-
 {
-  home.packages = [ pkgs.immich-cli ];
+  pkgs,
+  config,
+  ...
+}: {
+  home.packages = [pkgs.immich-cli];
 
   systemd.user.services.immich-uploader = {
     Unit = {
       Description = "Immich Auto-Uploader Service";
-      After = [ "network-online.target" ];
-      Wants = [ "network-online.target" ];
+      After = ["network-online.target"];
+      Wants = ["network-online.target"];
     };
 
     Service = {
       # Ensure this path is correct relative to your home
-      EnvironmentFile = "%h/nixos-config/.env"; 
+      EnvironmentFile = "%h/nixos-config/.env";
 
       ExecStart = pkgs.writeShellScript "immich-watcher" ''
         echo "🚀 Starting Immich Watchers..."
@@ -27,7 +29,7 @@
     };
 
     Install = {
-      WantedBy = [ "default.target" ];
+      WantedBy = ["default.target"];
     };
   };
 }

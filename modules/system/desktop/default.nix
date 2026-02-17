@@ -1,11 +1,9 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.modules.desktop;
-in
 {
+  lib,
+  pkgs,
+  ...
+}:
+with lib; {
   imports = [
     ./gnome.nix
     ./hyprland.nix
@@ -13,7 +11,7 @@ in
 
   options.modules.desktop = {
     env = mkOption {
-      type = types.enum [ "gnome" "hyprland" ];
+      type = types.enum ["gnome" "hyprland"];
       default = "gnome";
       description = "The desktop environment to use.";
     };
@@ -21,19 +19,22 @@ in
 
   config = {
     # --- Hardware & Drivers (Common) ---
-    hardware.i2c.enable = true;
-    services.udev.packages = [ pkgs.ddcutil ];
-
-    hardware.graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-media-driver
-        intel-vaapi-driver
-      ];
+    hardware = {
+      i2c.enable = true;
+      graphics = {
+        enable = true;
+        extraPackages = with pkgs; [
+          intel-media-driver
+          intel-vaapi-driver
+        ];
+      };
+      bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+      };
+      enableAllFirmware = true;
     };
-    
-    hardware.bluetooth.enable = true;
-    hardware.bluetooth.powerOnBoot = true;
-    hardware.enableAllFirmware = true;
+
+    services.udev.packages = [pkgs.ddcutil];
   };
 }

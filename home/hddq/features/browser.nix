@@ -1,6 +1,8 @@
-{ pkgs, inputs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   home.packages = [
     inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
     inputs.helium.defaultPackage."${pkgs.stdenv.hostPlatform.system}"

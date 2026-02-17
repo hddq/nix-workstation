@@ -1,11 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-  cfg = config.modules.desktop;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.modules.desktop;
+in {
   config = mkIf (cfg.env == "hyprland") {
     # --- Lightweight Login Manager (greetd) ---
     services.greetd = {
@@ -19,18 +20,22 @@ in
     };
 
     # Unlock Keyring on Login
-    security.pam.services.greetd.enableGnomeKeyring = true;
-    security.pam.services.hyprlock = {};
+    security = {
+      pam.services = {
+        greetd.enableGnomeKeyring = true;
+        hyprlock = {};
+      };
+      polkit.enable = true;
+    };
 
     programs.hyprland.enable = true;
-    
-    security.polkit.enable = true;
+
     services.gnome.gnome-keyring.enable = true;
 
     xdg.portal = {
       enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      config.common.default = [ "gtk" ];
+      extraPortals = [pkgs.xdg-desktop-portal-gtk];
+      config.common.default = ["gtk"];
     };
   };
 }

@@ -1,7 +1,5 @@
-{ pkgs, ... }:
-
-{
-  home.packages = [ pkgs.imv ];
+{pkgs, ...}: {
+  home.packages = [pkgs.imv];
 
   programs.mpv = {
     enable = true;

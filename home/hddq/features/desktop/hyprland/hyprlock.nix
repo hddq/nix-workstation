@@ -1,6 +1,8 @@
-{ config, lib, osConfig, pkgs, ... }:
-
 {
+  lib,
+  osConfig,
+  ...
+}: {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
     programs.hyprlock = {
       enable = true;

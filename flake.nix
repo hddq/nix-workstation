@@ -17,9 +17,15 @@
     helium.url = "github:FKouhai/helium2nix/main";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
-  let
+  outputs = {
+    nixpkgs,
+    nixpkgs-unstable,
+    ...
+  } @ inputs: let
     system = "x86_64-linux";
+    pkgs = import nixpkgs {
+      inherit system;
+    };
     # Create an overlay or just separate import for unstable
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
@@ -29,11 +35,20 @@
     nixosConfigurations = {
       nix-workstation = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs pkgs-unstable; };
+        specialArgs = {inherit inputs pkgs-unstable;};
         modules = [
           ./hosts/nix-workstation/default.nix
         ];
       };
+    };
+
+    devShells.${system}.default = pkgs.mkShell {
+      name = "nixos-config-shell";
+      buildInputs = with pkgs; [
+        statix
+        deadnix
+        alejandra
+      ];
     };
   };
 }

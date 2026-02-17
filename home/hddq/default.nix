@@ -1,6 +1,8 @@
-{ config, pkgs, pkgs-unstable, inputs, ... }:
-
 {
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   imports = [
     ./features/browser.nix
     ./features/media.nix
@@ -9,23 +11,25 @@
     ./features/desktop
   ];
 
-  home.username = "hddq";
-  home.homeDirectory = "/home/hddq";
+  home = {
+    username = "hddq";
+    homeDirectory = "/home/hddq";
+
+    # --- User Packages ---
+    # Only misc stuff here, major stuff goes to features
+    packages = with pkgs; [
+      obsidian
+      pkgs-unstable.vscode
+      pkgs-unstable.feishin
+      thunderbird
+      localsend
+      element-desktop
+      pkgs-unstable.gemini-cli
+      ddcutil
+    ];
+
+    stateVersion = "25.11";
+  };
 
   xdg.mimeApps.enable = true;
-
-  # --- User Packages ---
-  # Only misc stuff here, major stuff goes to features
-  home.packages = with pkgs; [
-    obsidian
-    pkgs-unstable.vscode
-    pkgs-unstable.feishin
-    thunderbird
-    localsend
-    element-desktop
-    pkgs-unstable.gemini-cli
-    ddcutil
-  ];
-
-  home.stateVersion = "25.11";
 }

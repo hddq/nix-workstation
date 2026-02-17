@@ -1,8 +1,6 @@
-{ config, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   # --- Nix Settings ---
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.auto-optimise-store = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -37,36 +35,40 @@
 
   # --- Console & Keyboard ---
   console.useXkbConfig = true;
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "colemak_dh";
-  };
+  services = {
+    xserver.xkb = {
+      layout = "us";
+      variant = "colemak_dh";
+    };
 
-  services.keyd = {
-    enable = true;
-    keyboards.default = {
-      ids = [ "*" ];
-      settings = {
-        global = {
-          overload_tap_timeout = "200"; 
-        };
-        main = {
-          capslock = "backspace";
-          leftalt = "overload(nav, leftalt)";
-          backspace = "capslock";
-        };
+    keyd = {
+      enable = true;
+      keyboards.default = {
+        ids = ["*"];
+        settings = {
+          global = {
+            overload_tap_timeout = "200";
+          };
+          main = {
+            capslock = "backspace";
+            leftalt = "overload(nav, leftalt)";
+            backspace = "capslock";
+          };
 
-        nav = {
-          h = "left";
-          j = "down";
-          k = "up";
-          l = "right";
-          u = "home";
-          o = "end";
-          capslock = "C-backspace";
+          nav = {
+            h = "left";
+            j = "down";
+            k = "up";
+            l = "right";
+            u = "home";
+            o = "end";
+            capslock = "C-backspace";
+          };
         };
       };
     };
+
+    openssh.enable = true;
   };
 
   # --- System Packages (Root) ---
@@ -77,7 +79,4 @@
     curl
   ];
   programs.fish.enable = true;
-
-  # --- Services ---
-  services.openssh.enable = true;
 }

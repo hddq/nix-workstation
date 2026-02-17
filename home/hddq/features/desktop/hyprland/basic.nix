@@ -1,6 +1,10 @@
-{ config, lib, osConfig, pkgs, pkgs-unstable, ... }:
-
 {
+  lib,
+  osConfig,
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
     wayland.windowManager.hyprland = {
       enable = true;
@@ -34,7 +38,7 @@
         ];
 
         "$terminal" = "kitty";
-        
+
         general = {
           gaps_in = 2;
           gaps_out = 0;
