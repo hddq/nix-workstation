@@ -48,6 +48,7 @@
         statix
         deadnix
         alejandra
+        pre-commit
       ];
     };
   };
