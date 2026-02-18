@@ -10,6 +10,7 @@
         mainBar = {
           layer = "top";
           position = "top";
+          output = ["DP-1"];
           modules-left = ["hyprland/workspaces"];
           modules-center = [];
           modules-right = ["bluetooth" "wireplumber" "clock"];
