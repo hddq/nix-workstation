@@ -22,7 +22,7 @@
           }
           {
             timeout = 300;
-            on-timeout = "loginctl lock-session";
+            on-timeout = "pidof hyprlock || hyprlock";
           }
           {
             timeout = 330;
