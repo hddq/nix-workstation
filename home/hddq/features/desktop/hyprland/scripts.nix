@@ -40,6 +40,57 @@
             ;;
         esac
       '';
+
+      get-brightness = writeShellScriptBin "get-brightness" ''
+        bus=$1
+        cache_file="/tmp/brightness_$bus"
+        # If cache exists and is newer than 2 seconds, use it (prevents ddcutil spam)
+        if [ -f "$cache_file" ] && [ "$(( $(date +%s) - $(stat -c %Y "$cache_file") ))" -lt 2 ]; then
+          cat "$cache_file"
+          exit 0
+        fi
+
+        val=$(${ddcutil}/bin/ddcutil getvcp 10 --bus "$bus" --terse | awk '{print $4}')
+        if [ -n "$val" ]; then
+          echo "$val" > "$cache_file"
+          echo "$val"
+        fi
+      '';
+
+      change-brightness = writeShellScriptBin "change-brightness" ''
+        bus=$1
+        delta=$2
+        step=5
+
+        cache_file="/tmp/brightness_$bus"
+        if [ ! -f "$cache_file" ]; then
+          ${ddcutil}/bin/ddcutil getvcp 10 --bus "$bus" --terse | awk '{print $4}' > "$cache_file"
+        fi
+
+        curr=$(cat "$cache_file")
+        if [ "$delta" = "+" ]; then
+          new=$((curr + step))
+        else
+          new=$((curr - step))
+        fi
+
+        [ "$new" -gt 100 ] && new=100
+        [ "$new" -lt 0 ] && new=0
+
+        echo "$new" > "$cache_file"
+        # Signal waybar to refresh immediately (assuming signal 10 for custom modules)
+        pkill -RTMIN+10 waybar
+
+        # Throttle ddcutil calls using a lock
+        lock_file="/tmp/brightness_$bus.lock"
+        (
+          flock -x 9 || exit 1
+          # Wait a bit to batch scroll events
+          sleep 0.3
+          final_val=$(cat "$cache_file")
+          ${ddcutil}/bin/ddcutil setvcp 10 "$final_val" --bus "$bus" --noverify
+        ) 9>"$lock_file" &
+      '';
     in [
       kitty
       rofi
@@ -53,6 +104,8 @@
       pkgs-unstable.swayosd
       ddcutil
       ddcutil-brightness
+      get-brightness
+      change-brightness
       playerctl
     ];
   };

@@ -13,7 +13,27 @@
           output = ["DP-1"];
           modules-left = ["hyprland/workspaces"];
           modules-center = [];
-          modules-right = ["bluetooth" "wireplumber" "clock"];
+          modules-right = ["bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
+
+          "custom/brightness-3" = {
+            exec = "get-brightness 3";
+            interval = 30;
+            format = "AOC: {}%";
+            on-scroll-up = "change-brightness 3 +";
+            on-scroll-down = "change-brightness 3 -";
+            signal = 10;
+            tooltip = false;
+          };
+
+          "custom/brightness-9" = {
+            exec = "get-brightness 9";
+            interval = 30;
+            format = "DELL: {}%";
+            on-scroll-up = "change-brightness 9 +";
+            on-scroll-down = "change-brightness 9 -";
+            signal = 10;
+            tooltip = false;
+          };
 
           "hyprland/workspaces" = {
             format = "{name}";
@@ -65,7 +85,9 @@
 
         #clock,
         #wireplumber,
-        #bluetooth {
+        #bluetooth,
+        #custom-brightness-3,
+        #custom-brightness-9 {
             padding: 0 5px;
         }
       '';
