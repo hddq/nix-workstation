@@ -44,11 +44,21 @@
         label = [
           {
             monitor = "";
-            text = "$TIME";
+            text = "cmd[update:1000] echo \"$(date +'%H:%M:%S')\"";
             color = "rgba(200, 200, 200, 1.0)";
             font_size = 64;
             font_family = "Noto Sans";
             position = "0, 80";
+            halign = "center";
+            valign = "center";
+          }
+          {
+            monitor = "";
+            text = "cmd[update:1000] echo \"$(date +'%A, %d %B')\"";
+            color = "rgba(200, 200, 200, 1.0)";
+            font_size = 24;
+            font_family = "Noto Sans";
+            position = "0, 10";
             halign = "center";
             valign = "center";
           }
