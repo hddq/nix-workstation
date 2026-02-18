@@ -10,7 +10,7 @@
       bind = [
         "$mainMod, Q, exec, $terminal"
         "$mainMod, C, killactive,"
-        "$mainMod, M, exit,"
+        "$mainMod, Pause, exit,"
         "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mainMod, R, exec, rofi -show drun"
 
