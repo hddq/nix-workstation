@@ -92,7 +92,6 @@
         ) 9>"$lock_file" &
       '';
     in [
-      kitty
       adwaita-icon-theme
       polkit_gnome
       grim

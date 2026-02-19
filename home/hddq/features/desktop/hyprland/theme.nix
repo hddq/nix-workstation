@@ -6,6 +6,14 @@
 }: {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
     wayland.windowManager.hyprland.settings = {
+      decoration = {
+        rounding = 8;
+        blur = {
+          enabled = true;
+          size = 6;
+          passes = 2;
+        };
+      };
       animations = {
         enabled = true;
         bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
@@ -37,6 +45,14 @@
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
       size = 24;
+    };
+
+    programs.kitty = {
+      enable = true;
+      settings = {
+        background_opacity = "0.6";
+        dynamic_background_opacity = true;
+      };
     };
 
     programs.rofi = {
