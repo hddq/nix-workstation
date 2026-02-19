@@ -93,7 +93,6 @@
       '';
     in [
       kitty
-      rofi
       adwaita-icon-theme
       polkit_gnome
       grim

@@ -39,6 +39,24 @@
       size = 24;
     };
 
+    programs.rofi = {
+      enable = true;
+      package = pkgs.rofi;
+      theme = "DarkBlue";
+      extraConfig = {
+        modi = "drun,run,window";
+        show-icons = true;
+        terminal = "kitty";
+        drun-display-format = "{icon} {name}";
+        location = 0;
+        disable-history = false;
+        hide-scrollbar = true;
+        display-drun = " Apps ";
+        display-run = "Run ";
+        display-window = "Window";
+      };
+    };
+
     # SwayOSD Styling
     xdg.configFile."swayosd/style.css".text = ''
       window {
