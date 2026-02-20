@@ -63,6 +63,20 @@
             u = "home";
             o = "end";
             capslock = "C-backspace";
+
+            # Restore F-keys functionality (Alt + Fx) which allows TTY switching
+            f1 = "A-f1";
+            f2 = "A-f2";
+            f3 = "A-f3";
+            f4 = "A-f4";
+            f5 = "A-f5";
+            f6 = "A-f6";
+            f7 = "A-f7";
+            f8 = "A-f8";
+            f9 = "A-f9";
+            f10 = "A-f10";
+            f11 = "A-f11";
+            f12 = "A-f12";
           };
         };
       };
