@@ -1,6 +1,7 @@
 {
   lib,
   osConfig,
+  pkgs,
   ...
 }: {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
@@ -14,19 +15,21 @@
           lock_cmd = "pidof hyprlock || hyprlock";
         };
 
-        listener = [
+        listener = let
+          is-playing = "${pkgs.playerctl}/bin/playerctl status 2>/dev/null | grep -q Playing";
+        in [
           {
             timeout = 150;
-            on-timeout = "ddcutil-brightness save && ddcutil-brightness set 10";
+            on-timeout = "${is-playing} || (ddcutil-brightness save && ddcutil-brightness set 10)";
             on-resume = "ddcutil-brightness restore";
           }
           {
             timeout = 300;
-            on-timeout = "pidof hyprlock || hyprlock";
+            on-timeout = "${is-playing} || (pidof hyprlock || hyprlock)";
           }
           {
             timeout = 330;
-            on-timeout = "hyprctl dispatch dpms off";
+            on-timeout = "${is-playing} || hyprctl dispatch dpms off";
             on-resume = "hyprctl dispatch dpms on";
           }
         ];
