@@ -4,13 +4,11 @@
     "config:best-practices"
   ],
   "timezone": "Europe/Warsaw",
-  "schedule": ["after 10pm"],
   "nix": {
     "enabled": true
   },
   "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["after 10pm"]
+    "enabled": true
   },
   "packageRules": [
     {
