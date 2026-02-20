@@ -28,6 +28,7 @@
           "${pkgs-unstable.swayosd}/bin/swayosd-server"
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
+          "waybar"
         ];
 
         workspace = [
