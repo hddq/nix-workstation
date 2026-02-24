@@ -52,6 +52,10 @@
           gaps_out = 0;
         };
 
+        dwindle = {
+          preserve_split = true;
+        };
+
         input = {
           kb_layout = "us";
           kb_variant = "colemak_dh";

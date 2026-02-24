@@ -50,6 +50,9 @@
         # Waybar
         "$mainMod, B, exec, pkill -SIGUSR1 waybar"
 
+        # Toggle Split
+        "$mainMod, S, togglesplit,"
+
         # Lock Screen
         "$mainMod, L, exec, pidof hyprlock || hyprlock"
 
