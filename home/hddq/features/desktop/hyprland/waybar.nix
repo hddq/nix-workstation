@@ -11,9 +11,14 @@
           layer = "top";
           position = "top";
           output = ["DP-1"];
-          modules-left = ["hyprland/workspaces"];
+          modules-left = ["hyprland/workspaces" "mpris"];
           modules-center = [];
           modules-right = ["load" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
+
+          "mpris" = {
+            format = "PLAY: {title} - {artist}";
+            format-paused = "PAUSED: {title} - {artist}";
+          };
 
           "load" = {
             format = "L: {load1} {load5} {load15}";
@@ -107,6 +112,7 @@
             background-color: @red;
         }
 
+        #mpris,
         #clock,
         #wireplumber,
         #bluetooth,
@@ -115,6 +121,11 @@
         #load {
             padding: 0 5px;
             color: @white;
+        }
+
+        #mpris {
+            color: @red;
+            border-bottom: 2px solid @red;
         }
 
         #clock {
