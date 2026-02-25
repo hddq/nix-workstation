@@ -18,6 +18,7 @@
           "mpris" = {
             format = "PLAY: {title} - {artist}";
             format-paused = "PAUSED: {title} - {artist}";
+            max-length = 30;
           };
 
           "load" = {
