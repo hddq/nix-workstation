@@ -53,6 +53,23 @@
             capslock = "backspace";
             leftalt = "overload(nav, leftalt)";
             backspace = "capslock";
+
+            rightshift = "layer(rightshift_blocked)";
+          };
+
+          "rightshift_blocked:S" = {
+            "," = "macro()";
+            "." = "macro()";
+            "p" = "macro()";
+            "/" = "macro()";
+            ";" = "macro()";
+            "[" = "macro()";
+            "]" = "macro()";
+            "'" = "macro()";
+            "-" = "macro()";
+            "=" = "macro()";
+            "\\" = "macro()";
+            "enter" = "macro()";
           };
 
           nav = {
@@ -64,7 +81,6 @@
             o = "end";
             capslock = "C-backspace";
 
-            # Restore F-keys functionality (Alt + Fx) which allows TTY switching
             f1 = "A-f1";
             f2 = "A-f2";
             f3 = "A-f3";
