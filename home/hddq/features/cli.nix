@@ -20,6 +20,7 @@
       enable = true;
       shellAliases = {
         k = "kubectl";
+        kn = "kubens";
         g = "gemini";
         nos = "nh os switch";
         nou = "nh os switch --update";
