@@ -74,6 +74,16 @@
     openFirewall = true;
   };
 
+  systemd.services.sunshine-uinput-fix = {
+    description = "Force uinput permissions for Sunshine";
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.coreutils}/bin/chmod 666 /dev/uinput";
+      RemainAfterExit = true;
+    };
+  };
+
   # --- Networking ---
   networking = {
     hostName = "nix-remote";
