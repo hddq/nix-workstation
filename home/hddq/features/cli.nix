@@ -15,6 +15,10 @@
     force = true;
   };
 
+  services = {
+    ssh-agent.enable = true;
+  };
+
   programs = {
     fish = {
       enable = true;
