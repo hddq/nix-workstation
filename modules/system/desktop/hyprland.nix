@@ -13,6 +13,11 @@ in {
       default = [",preferred,auto,1"];
       description = "Hyprland monitor configurations";
     };
+    mainMonitor = mkOption {
+      type = types.str;
+      default = "";
+      description = "The primary monitor name, used for things like waybar";
+    };
     workspaces = mkOption {
       type = types.listOf types.str;
       default = [];

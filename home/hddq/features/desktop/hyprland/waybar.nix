@@ -10,7 +10,7 @@
         mainBar = {
           layer = "top";
           position = "top";
-          output = ["DP-1"];
+          output = [osConfig.modules.desktop.hyprland.mainMonitor];
           modules-left = ["hyprland/workspaces" "mpris"];
           modules-center = [];
           modules-right = ["load" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];

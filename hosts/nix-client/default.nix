@@ -21,6 +21,7 @@
   modules.desktop = {
     env = "hyprland"; # gnome or hyprland
     hyprland = {
+      mainMonitor = "DP-1";
       monitors = [
         "DP-1, 1920x1080@240, 0x0, 1"
         "HDMI-A-1, 1920x1080@60, -1920x400, 1"
