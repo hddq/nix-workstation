@@ -72,7 +72,7 @@
             "enter" = "macro()";
           };
 
-          nav = {
+          "nav:A" = {
             h = "left";
             j = "down";
             k = "up";
