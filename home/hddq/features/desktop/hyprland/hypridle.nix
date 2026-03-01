@@ -17,22 +17,27 @@
 
         listener = let
           is-playing = "${pkgs.playerctl}/bin/playerctl status 2>/dev/null | grep -q Playing";
-        in [
-          {
-            timeout = 150;
-            on-timeout = "${is-playing} || (ddcutil-brightness save && ddcutil-brightness set 10)";
-            on-resume = "ddcutil-brightness restore";
-          }
-          {
-            timeout = 300;
-            on-timeout = "${is-playing} || (pidof hyprlock || hyprlock)";
-          }
-          {
-            timeout = 330;
-            on-timeout = "${is-playing} || hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
-          }
-        ];
+        in
+          lib.optionals osConfig.modules.desktop.hyprland.monitorSleep [
+            {
+              timeout = 150;
+              on-timeout = "${is-playing} || (ddcutil-brightness save && ddcutil-brightness set 10)";
+              on-resume = "ddcutil-brightness restore";
+            }
+          ]
+          ++ [
+            {
+              timeout = 300;
+              on-timeout = "${is-playing} || (pidof hyprlock || hyprlock)";
+            }
+          ]
+          ++ lib.optionals osConfig.modules.desktop.hyprland.monitorSleep [
+            {
+              timeout = 330;
+              on-timeout = "${is-playing} || hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on";
+            }
+          ];
       };
     };
   };

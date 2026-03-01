@@ -10,10 +10,17 @@
         mainBar = {
           layer = "top";
           position = "top";
-          output = ["DP-1"];
+          output = [osConfig.modules.desktop.hyprland.mainMonitor];
           modules-left = ["hyprland/workspaces" "mpris"];
-          modules-center = [];
+          modules-center = ["custom/userhost"];
           modules-right = ["load" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
+
+          "custom/userhost" = {
+            exec = "echo $(whoami)@$(hostname)";
+            interval = "once";
+            format = "{}";
+            tooltip = false;
+          };
 
           "mpris" = {
             format = "PLAY: {title} - {artist}";
@@ -119,6 +126,7 @@
         #bluetooth,
         #custom-brightness-3,
         #custom-brightness-9,
+        #custom-userhost,
         #load {
             padding: 0 5px;
             color: @white;
@@ -153,6 +161,11 @@
         #load {
             color: @grn;
             border-bottom: 2px solid @grn;
+        }
+
+        #custom-userhost {
+            color: @blu;
+            border-bottom: 2px solid @blu;
         }
       '';
     };

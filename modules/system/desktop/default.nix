@@ -15,6 +15,14 @@ with lib; {
       default = "gnome";
       description = "The desktop environment to use.";
     };
+    autoLogin = {
+      enable = mkEnableOption "Enable auto login";
+      user = mkOption {
+        type = types.str;
+        default = "hddq";
+        description = "User to auto login";
+      };
+    };
   };
 
   config = {

@@ -7,6 +7,29 @@
 with lib; let
   cfg = config.modules.desktop;
 in {
+  options.modules.desktop.hyprland = {
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = [",preferred,auto,1"];
+      description = "Hyprland monitor configurations";
+    };
+    mainMonitor = mkOption {
+      type = types.str;
+      default = "";
+      description = "The primary monitor name, used for things like waybar";
+    };
+    workspaces = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "Hyprland workspace configurations";
+    };
+    monitorSleep = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable monitor sleep via hypridle";
+    };
+  };
+
   config = mkIf (cfg.env == "hyprland") {
     # --- Lightweight Login Manager (greetd) ---
     services.greetd = {
@@ -15,6 +38,10 @@ in {
         default_session = {
           command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
           user = "greeter";
+        };
+        initial_session = mkIf cfg.autoLogin.enable {
+          command = "Hyprland";
+          inherit (cfg.autoLogin) user;
         };
       };
     };
