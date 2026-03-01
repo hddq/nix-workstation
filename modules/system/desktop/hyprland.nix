@@ -18,6 +18,11 @@ in {
       default = [];
       description = "Hyprland workspace configurations";
     };
+    monitorSleep = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable monitor sleep via hypridle";
+    };
   };
 
   config = mkIf (cfg.env == "hyprland") {
