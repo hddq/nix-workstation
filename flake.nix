@@ -33,11 +33,21 @@
     };
   in {
     nixosConfigurations = {
-      nix-workstation = nixpkgs.lib.nixosSystem {
+      # 🖥️ Host 1: Remote
+      nix-remote = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {inherit inputs pkgs-unstable;};
         modules = [
-          ./hosts/nix-workstation/default.nix
+          ./hosts/nix-remote/default.nix
+        ];
+      };
+
+      # 💻 Host 2: Client
+      nix-client = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit inputs pkgs-unstable;};
+        modules = [
+          ./hosts/nix-client/default.nix
         ];
       };
     };

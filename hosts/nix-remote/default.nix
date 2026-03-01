@@ -31,9 +31,28 @@
 
   zramSwap.enable = true;
 
+  # --- Custom edid ---
+  boot.kernelParams = [
+    "video=HDMI-A-1:1920x1080@240e"
+    "drm.edid_firmware=HDMI-A-1:edid/240hz.bin"
+  ];
+  hardware.firmware = [
+    (pkgs.runCommand "custom-edid" {} ''
+      mkdir -p $out/lib/firmware/edid
+      cp ${./240hz.bin} $out/lib/firmware/edid/240hz.bin
+    '')
+  ];
+  # --- Sunshine ---
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
   # --- Networking ---
   networking = {
-    hostName = "nix-workstation";
+    hostName = "nix-remote";
     networkmanager.enable = true;
     firewall = {
       enable = true;
