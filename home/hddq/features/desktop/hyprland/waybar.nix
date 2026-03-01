@@ -93,7 +93,7 @@
         * {
             border: none;
             border-radius: 0;
-            font-family: monospace;
+            font-family: '0xProto Nerd Font', monospace;
             font-size: 12px;
             min-height: 0;
             font-weight: bold;

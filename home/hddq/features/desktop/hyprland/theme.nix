@@ -49,6 +49,10 @@
 
     programs.kitty = {
       enable = true;
+      font = {
+        name = "0xProto Nerd Font";
+        size = 11;
+      };
       settings = {
         background_opacity = "0.6";
         dynamic_background_opacity = true;

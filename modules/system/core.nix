@@ -120,6 +120,12 @@
       wget
       curl
     ];
+
+    # --- Fonts ---
+    fonts.packages = with pkgs; [
+      nerd-fonts._0xproto
+    ];
+
     programs.fish.enable = true;
   };
 }
