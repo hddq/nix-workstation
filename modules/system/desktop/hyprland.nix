@@ -29,6 +29,10 @@ in {
           command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
           user = "greeter";
         };
+        initial_session = mkIf cfg.autoLogin.enable {
+          command = "Hyprland";
+          inherit (cfg.autoLogin) user;
+        };
       };
     };
 

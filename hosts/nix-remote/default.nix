@@ -20,6 +20,8 @@
 
   modules.desktop = {
     env = "hyprland"; # gnome or hyprland
+    autoLogin.enable = true;
+    autoLogin.user = "hddq";
     hyprland = {
       monitors = [
         "HDMI-A-1, 1920x1080@240, 0x0, 1"

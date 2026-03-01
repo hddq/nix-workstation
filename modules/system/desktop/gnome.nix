@@ -9,8 +9,16 @@ with lib; let
 in {
   config = mkIf (cfg.env == "gnome") {
     # --- Gnome & GDM ---
-    services.desktopManager.gnome.enable = true;
-    services.displayManager.gdm.enable = true;
+    services = {
+      desktopManager.gnome.enable = true;
+      displayManager = {
+        gdm.enable = true;
+        autoLogin = mkIf cfg.autoLogin.enable {
+          enable = true;
+          inherit (cfg.autoLogin) user;
+        };
+      };
+    };
     programs.dconf.enable = true;
 
     # --- Debloat Gnome ---
