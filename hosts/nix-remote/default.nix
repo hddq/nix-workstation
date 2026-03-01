@@ -18,7 +18,28 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  modules.desktop.env = "hyprland"; # gnome or hyprland
+  modules.desktop = {
+    env = "hyprland"; # gnome or hyprland
+    hyprland = {
+      monitors = [
+        "HDMI-A-1, 1920x1080@240, 0x0, 1"
+        "HDMI-A-2, 1920x1080@60, -1920x400, 1"
+      ];
+      workspaces = [
+        "1, monitor:HDMI-A-1, default:true"
+        "2, monitor:HDMI-A-1"
+        "3, monitor:HDMI-A-1"
+        "4, monitor:HDMI-A-1"
+        "5, monitor:HDMI-A-1"
+        "6, monitor:HDMI-A-1"
+        "7, monitor:HDMI-A-1"
+        "8, monitor:HDMI-A-1"
+        "9, monitor:HDMI-A-1"
+        "10, monitor:HDMI-A-1"
+        "11, monitor:HDMI-A-2, default:true"
+      ];
+    };
+  };
 
   # --- Bootloader ---
   boot = {
