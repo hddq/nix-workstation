@@ -26,6 +26,7 @@
       element-desktop
       pkgs-unstable.gemini-cli
       ddcutil
+      moonlight-qt
     ];
 
     stateVersion = "25.11";
