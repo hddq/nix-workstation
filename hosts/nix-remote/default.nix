@@ -18,6 +18,8 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  modules.system.keyd.enable = false;
+
   modules.desktop = {
     env = "hyprland"; # gnome or hyprland
     autoLogin.enable = true;
