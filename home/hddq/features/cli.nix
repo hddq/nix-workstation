@@ -15,8 +15,10 @@
     force = true;
   };
 
-  services = {
-    ssh-agent.enable = true;
+  programs.keychain = {
+    enable = true;
+    enableFishIntegration = true;
+    keys = ["hddq-ssh"];
   };
 
   programs = {
