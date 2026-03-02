@@ -75,6 +75,7 @@
 
   # --- Custom edid ---
   boot.kernelParams = [
+    "ip=dhcp"
     "video=HDMI-A-1:1920x1080@240e"
     "drm.edid_firmware=HDMI-A-1:edid/240hz.bin"
   ];
