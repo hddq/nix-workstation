@@ -53,7 +53,22 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    initrd.kernelModules = ["i915"];
+    initrd = {
+      systemd.enable = true;
+      availableKernelModules = ["virtio_net"];
+      kernelModules = ["i915"];
+      network = {
+        enable = true;
+        ssh = {
+          enable = true;
+          port = 2222;
+          hostKeys = ["/etc/ssh/ssh_host_ed25519_key"];
+          authorizedKeys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAKFgv0ykKB0lLGjkh3fI8tUy+o8qtUcgjFPSN1AyncW"
+          ];
+        };
+      };
+    };
   };
 
   zramSwap.enable = true;
