@@ -59,6 +59,7 @@
         deadnix
         alejandra
         pre-commit
+        gitleaks
       ];
     };
   };
