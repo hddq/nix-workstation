@@ -54,7 +54,7 @@
         "$mainMod, S, togglesplit,"
 
         # Lock Screen
-        "$mainMod, L, exec, pidof hyprlock || hyprlock"
+        "$mainMod, L, exec, loginctl lock-session"
 
         # Media Keys
         ", XF86AudioMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"

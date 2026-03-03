@@ -27,6 +27,11 @@
           ]
           ++ [
             {
+              timeout = 5;
+              on-timeout = "pidof hyprlock && hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on";
+            }
+            {
               timeout = 300;
               on-timeout = "${is-playing} || (pidof hyprlock || hyprlock)";
             }
