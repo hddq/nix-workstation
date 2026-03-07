@@ -66,9 +66,9 @@
 
   # --- Custom edid ---
   hardware.firmware = [
-    (pkgs.runCommand "custom-edid" {} ''
-      mkdir -p $out/lib/firmware/edid
-      cp ${./240hz.bin} $out/lib/firmware/edid/240hz.bin
+    (pkgs.runCommand "custom-edid" {} ''      # bash
+           mkdir -p $out/lib/firmware/edid
+           cp ${./240hz.bin} $out/lib/firmware/edid/240hz.bin
     '')
   ];
 

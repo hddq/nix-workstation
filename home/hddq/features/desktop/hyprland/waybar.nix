@@ -77,96 +77,96 @@
           };
         };
       };
-      style = ''
-        @define-color bg    #1a1b26;
-        @define-color fg    #a9b1d6;
-        @define-color blk   #32344a;
-        @define-color red   #f7768e;
-        @define-color grn   #9ece6a;
-        @define-color ylw   #e0af68;
-        @define-color blu   #7aa2f7;
-        @define-color mag   #ad8ee6;
-        @define-color cyn   #0db9d7;
-        @define-color brblk #444b6a;
-        @define-color white #ffffff;
+      style = ''        /* css */
+               @define-color bg    #1a1b26;
+               @define-color fg    #a9b1d6;
+               @define-color blk   #32344a;
+               @define-color red   #f7768e;
+               @define-color grn   #9ece6a;
+               @define-color ylw   #e0af68;
+               @define-color blu   #7aa2f7;
+               @define-color mag   #ad8ee6;
+               @define-color cyn   #0db9d7;
+               @define-color brblk #444b6a;
+               @define-color white #ffffff;
 
-        * {
-            border: none;
-            border-radius: 0;
-            font-family: '0xProto Nerd Font', monospace;
-            font-size: 12px;
-            min-height: 0;
-            font-weight: bold;
-        }
+               * {
+                   border: none;
+                   border-radius: 0;
+                   font-family: '0xProto Nerd Font', monospace;
+                   font-size: 12px;
+                   min-height: 0;
+                   font-weight: bold;
+               }
 
-        window#waybar {
-            background-color: @bg;
-            color: @fg;
-        }
+               window#waybar {
+                   background-color: @bg;
+                   color: @fg;
+               }
 
-        #workspaces button {
-            padding: 0 5px;
-            color: @cyn;
-            background: transparent;
-            border-bottom: 2px solid @bg;
-        }
+               #workspaces button {
+                   padding: 0 5px;
+                   color: @cyn;
+                   background: transparent;
+                   border-bottom: 2px solid @bg;
+               }
 
-        #workspaces button.active {
-            color: @cyn;
-            border-bottom: 2px solid @mag;
-        }
+               #workspaces button.active {
+                   color: @cyn;
+                   border-bottom: 2px solid @mag;
+               }
 
-        #workspaces button.urgent {
-            background-color: @red;
-        }
+               #workspaces button.urgent {
+                   background-color: @red;
+               }
 
-        #mpris,
-        #clock,
-        #wireplumber,
-        #bluetooth,
-        #custom-brightness-3,
-        #custom-brightness-9,
-        #custom-userhost,
-        #load {
-            padding: 0 5px;
-            color: @white;
-        }
+               #mpris,
+               #clock,
+               #wireplumber,
+               #bluetooth,
+               #custom-brightness-3,
+               #custom-brightness-9,
+               #custom-userhost,
+               #load {
+                   padding: 0 5px;
+                   color: @white;
+               }
 
-        #mpris {
-            color: @red;
-            border-bottom: 2px solid @red;
-        }
+               #mpris {
+                   color: @red;
+                   border-bottom: 2px solid @red;
+               }
 
-        #clock {
-            color: @cyn;
-            border-bottom: 2px solid @cyn;
-        }
+               #clock {
+                   color: @cyn;
+                   border-bottom: 2px solid @cyn;
+               }
 
-        #wireplumber {
-            color: @mag;
-            border-bottom: 2px solid @mag;
-        }
+               #wireplumber {
+                   color: @mag;
+                   border-bottom: 2px solid @mag;
+               }
 
-        #bluetooth {
-            color: @blu;
-            border-bottom: 2px solid @blu;
-        }
+               #bluetooth {
+                   color: @blu;
+                   border-bottom: 2px solid @blu;
+               }
 
-        #custom-brightness-3,
-        #custom-brightness-9 {
-            color: @ylw;
-            border-bottom: 2px solid @ylw;
-        }
+               #custom-brightness-3,
+               #custom-brightness-9 {
+                   color: @ylw;
+                   border-bottom: 2px solid @ylw;
+               }
 
-        #load {
-            color: @grn;
-            border-bottom: 2px solid @grn;
-        }
+               #load {
+                   color: @grn;
+                   border-bottom: 2px solid @grn;
+               }
 
-        #custom-userhost {
-            color: @blu;
-            border-bottom: 2px solid @blu;
-        }
+               #custom-userhost {
+                   color: @blu;
+                   border-bottom: 2px solid @blu;
+               }
       '';
     };
   };

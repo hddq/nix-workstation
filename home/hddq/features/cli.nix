@@ -7,10 +7,10 @@
   ];
 
   xdg.configFile."xxh/config.xxhc" = {
-    text = ''
-      hosts:
-        ".*":
-          +s: fish
+    text = ''      # yaml
+           hosts:
+             ".*":
+               +s: fish
     '';
     force = true;
   };

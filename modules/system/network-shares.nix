@@ -12,17 +12,17 @@ in {
       Type = "oneshot";
       RemainAfterExit = true;
     };
-    script = ''
-            mkdir -p /run/keys
-            # Extract values from .env
-            USERNAME=$(grep '^SMB_USER=' ${envFile} | cut -d'=' -f2-)
-            PASSWORD=$(grep '^SMB_PASS=' ${envFile} | cut -d'=' -f2-)
+    script = ''      # bash
+                 mkdir -p /run/keys
+                 # Extract values from .env
+                 USERNAME=$(grep '^SMB_USER=' ${envFile} | cut -d'=' -f2-)
+                 PASSWORD=$(grep '^SMB_PASS=' ${envFile} | cut -d'=' -f2-)
 
-            cat > ${credsFile} <<EOF
-      username=$USERNAME
-      password=$PASSWORD
-      EOF
-            chmod 600 ${credsFile}
+                 cat > ${credsFile} <<EOF
+           username=$USERNAME
+           password=$PASSWORD
+           EOF
+                 chmod 600 ${credsFile}
     '';
   };
 
