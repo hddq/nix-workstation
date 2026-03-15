@@ -31,6 +31,11 @@ in {
   };
 
   config = mkIf (cfg.env == "hyprland") {
+    networking.useNetworkd = true;
+    systemd.network = {
+      enable = true;
+    };
+
     # --- Lightweight Login Manager (greetd) ---
     services.greetd = {
       enable = true;

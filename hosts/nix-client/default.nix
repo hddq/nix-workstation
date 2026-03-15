@@ -4,22 +4,14 @@
     ../common.nix
   ];
 
-  networking = {
-    hostName = "nix-client";
-    networkmanager.ensureProfiles.profiles = {
-      ens18 = {
-        connection = {
-          id = "ens18";
-          type = "ethernet";
-          interface-name = "ens18";
-        };
-        ipv4 = {
-          method = "manual";
-          addresses = "192.168.255.10/24";
-          gateway = "192.168.255.1";
-          dns = "192.168.40.11;192.168.40.12;";
-        };
-      };
+  networking.hostName = "nix-client";
+
+  systemd.network.networks."10-ens18" = {
+    matchConfig.Name = "ens18";
+    networkConfig = {
+      Address = "192.168.255.10/24";
+      Gateway = "192.168.255.1";
+      DNS = ["192.168.40.11" "192.168.40.12"];
     };
   };
 

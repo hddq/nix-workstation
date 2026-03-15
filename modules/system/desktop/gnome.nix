@@ -8,6 +8,8 @@ with lib; let
   cfg = config.modules.desktop;
 in {
   config = mkIf (cfg.env == "gnome") {
+    networking.networkmanager.enable = true;
+
     # --- Gnome & GDM ---
     services = {
       desktopManager.gnome.enable = true;
