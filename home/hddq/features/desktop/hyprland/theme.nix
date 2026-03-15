@@ -51,7 +51,7 @@
       enable = true;
       font = {
         name = "0xProto Nerd Font";
-        size = 11;
+        size = 10;
       };
       settings = {
         background_opacity = "0.6";
