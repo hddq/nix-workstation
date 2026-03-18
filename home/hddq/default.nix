@@ -20,7 +20,6 @@
     packages = with pkgs; [
       obsidian
       pkgs-unstable.vscode
-      pkgs-unstable.feishin
       thunderbird
       localsend
       element-desktop
