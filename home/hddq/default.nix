@@ -24,7 +24,8 @@
       thunderbird
       localsend
       element-desktop
-      pkgs-unstable.gemini-cli
+      pkgs-unstable.gemini-cli-bin
+      pkgs-unstable.codex
       ddcutil
       moonlight-qt
     ];
