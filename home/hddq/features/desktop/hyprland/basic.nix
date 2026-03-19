@@ -50,7 +50,7 @@
         windowrulev2 = [
           "workspace 1, class:(zen-beta)"
           "workspace 11, class:(obsidian)"
-          "workspace 11, initialTitle:(TradingView)" # TradingView (Helium PWA)
+          "workspace 11, initialClass:^(chrome-www.tradingview.com.*)$"
         ];
       };
     };
