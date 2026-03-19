@@ -15,6 +15,9 @@
     # --- Browsers ---
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     helium.url = "github:FKouhai/helium2nix/main";
+
+    # --- VS Code Extensions ---
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   outputs = {

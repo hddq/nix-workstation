@@ -9,6 +9,7 @@
     ./features/cli.nix
     ./features/immich.nix
     ./features/desktop
+    ./features/vscode.nix
   ];
 
   home = {
@@ -19,7 +20,6 @@
     # Only misc stuff here, major stuff goes to features
     packages = with pkgs; [
       obsidian
-      pkgs-unstable.vscode
       thunderbird
       localsend
       element-desktop
@@ -28,7 +28,6 @@
       ddcutil
       moonlight-qt
     ];
-
     stateVersion = "25.11";
   };
 
