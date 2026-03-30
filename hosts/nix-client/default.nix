@@ -15,6 +15,23 @@
     };
   };
 
+  systemd.network.networks."20-ens19" = {
+    matchConfig.Name = "ens19";
+    networkConfig = {
+      Address = "192.168.10.10/24";
+      Gateway = "192.168.10.1";
+      DNS = [" 192.168.40.11" "192.168.40.12"];
+    };
+    routes = [
+      {
+        routeConfig = {
+          Destination = "10.66.66.0/24";
+          Gateway = "192.168.10.1";
+        };
+      }
+    ];
+  };
+
   modules.desktop = {
     env = "hyprland"; # gnome or hyprland
     hyprland = {
