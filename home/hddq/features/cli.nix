@@ -1,6 +1,12 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    bat
+    dust
+    duf
+    eza
+    fd
     fastfetch
+    ripgrep
     xxh
     btop
     procps
@@ -28,6 +34,8 @@
         k = "kubectl";
         kn = "kubens";
         g = "gemini";
+        ls = "eza --group-directories-first --icons";
+        ll = "eza -lah --group-directories-first --icons";
         nos = "nh os switch";
         nou = "nh os switch --update";
       };
