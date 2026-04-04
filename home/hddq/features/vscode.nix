@@ -27,6 +27,8 @@ in {
         pkgs.vscode-extensions.github.vscode-github-actions
         pkgs.vscode-extensions.ms-kubernetes-tools.vscode-kubernetes-tools
         pkgs.vscode-extensions.redhat.ansible
+        pkgs.vscode-extensions.ms-azuretools.vscode-containers
+        pkgs.vscode-extensions.tamasfe.even-better-toml
 
         # From nix-vscode-extensions flake (Marketplace)
         mkt.atomicspirit.nix-embedded-highlighter
@@ -42,8 +44,14 @@ in {
         "window.titleBarStyle" = "custom";
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nil";
+        "nixEnvSelector.useFlakes" = true;
         "files.autosave" = "afterDelay";
         "files.autoSaveDelay" = 1000;
+        "git.autofetch" = true;
+        "[json]" = {
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        };
+        "containers.containerClient" = "com.microsoft.visualstudio.containers.podman";
       };
     };
   };
