@@ -27,6 +27,8 @@
       pkgs-unstable.codex
       ddcutil
       moonlight-qt
+      podman
+      podman-compose
     ];
     stateVersion = "25.11";
   };
