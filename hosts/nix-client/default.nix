@@ -6,6 +6,8 @@
 
   networking.hostName = "nix-client";
 
+  networking.firewall.allowedTCPPorts = [8080];
+
   systemd.network.networks."10-ens18" = {
     matchConfig.Name = "ens18";
     networkConfig = {
