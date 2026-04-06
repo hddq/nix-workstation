@@ -65,4 +65,51 @@
       };
     };
   };
+
+  systemd.user.services.trash-auto-clean = {
+    Unit = {
+      Description = "Remove trash entries older than 7 days";
+    };
+
+    Service = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "trash-auto-clean" ''        # bash
+               set -eu
+
+               trash_dir="$HOME/.local/share/Trash"
+               files_dir="$trash_dir/files"
+               info_dir="$trash_dir/info"
+
+               [ -d "$info_dir" ] || exit 0
+
+               find "$info_dir" -type f -name '*.trashinfo' -mtime +7 \
+                 -exec sh -eu -c '
+                   files_dir="$1"
+                   shift
+
+                   for info_file do
+                     base_name="$(basename "$info_file" .trashinfo)"
+
+                     rm -rf -- "$files_dir/$base_name"
+                     rm -f -- "$info_file"
+                   done
+                 ' sh "$files_dir" {} +
+      '';
+    };
+  };
+
+  systemd.user.timers.trash-auto-clean = {
+    Unit = {
+      Description = "Clean trash entries older than 7 days";
+    };
+
+    Timer = {
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+
+    Install = {
+      WantedBy = ["timers.target"];
+    };
+  };
 }
