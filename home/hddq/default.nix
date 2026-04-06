@@ -1,6 +1,6 @@
 {
   pkgs,
-  pkgs-unstable,
+  # pkgs-unstable,
   ...
 }: {
   imports = [
@@ -23,8 +23,6 @@
       thunderbird
       localsend
       element-desktop
-      pkgs-unstable.gemini-cli-bin
-      pkgs-unstable.codex
       ddcutil
       moonlight-qt
       podman

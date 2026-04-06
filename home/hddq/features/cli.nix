@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   home.packages = with pkgs; [
     bat
     dust
@@ -10,6 +14,8 @@
     xxh
     btop
     procps
+    pkgs-unstable.gemini-cli
+    pkgs-unstable.codex
   ];
 
   xdg.configFile."xxh/config.xxhc" = {
@@ -47,6 +53,8 @@
         ll = "ls -l";
         k = "kubectl";
         g = "gemini";
+        c = "codex";
+        co = "code";
         nos = "nh os switch";
         nou = "nh os switch --update";
       };
