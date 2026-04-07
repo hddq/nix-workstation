@@ -38,6 +38,10 @@
     dockerCompat = true;
   };
 
+  environment.systemPackages = [
+    pkgs.podman-compose
+  ];
+
   systemd.user.services.podman-dev = {
     description = "Podman API Service (rootless)";
     wantedBy = ["default.target"];
