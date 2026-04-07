@@ -33,6 +33,22 @@
     ];
   };
 
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
+
+  systemd.user.services.podman-dev = {
+    description = "Podman API Service (rootless)";
+    wantedBy = ["default.target"];
+
+    serviceConfig = {
+      ExecStart = "${pkgs.podman}/bin/podman system service --time=0";
+      Restart = "always";
+      RestartSec = 2;
+    };
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

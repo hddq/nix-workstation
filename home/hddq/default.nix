@@ -25,8 +25,6 @@
       element-desktop
       ddcutil
       moonlight-qt
-      podman
-      podman-compose
       gh
     ];
     stateVersion = "25.11";
