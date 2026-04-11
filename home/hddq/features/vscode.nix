@@ -29,7 +29,8 @@ in {
         pkgs.vscode-extensions.redhat.ansible
         pkgs.vscode-extensions.ms-azuretools.vscode-containers
         pkgs.vscode-extensions.tamasfe.even-better-toml
-
+        pkgs.vscode-extensions.cweijan.vscode-database-client2
+        pkgs.vscode-extensions.svelte.svelte-vscode
         # From nix-vscode-extensions flake (Marketplace)
         mkt.atomicspirit.nix-embedded-highlighter
       ];
@@ -52,6 +53,7 @@ in {
           "editor.defaultFormatter" = "esbenp.prettier-vscode";
         };
         "containers.containerClient" = "com.microsoft.visualstudio.containers.podman";
+        "svelte.enable-ts-plugin" = true;
       };
     };
   };
