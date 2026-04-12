@@ -47,7 +47,7 @@
     wantedBy = ["default.target"];
 
     serviceConfig = {
-      ExecStart = "${pkgs.podman}/bin/podman system service --time=0";
+      ExecStart = "${pkgs.lib.getExe pkgs.podman} system service --time=0";
       Restart = "always";
       RestartSec = 2;
     };
