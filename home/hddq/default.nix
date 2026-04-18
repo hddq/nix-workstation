@@ -1,6 +1,6 @@
 {
   pkgs,
-  # pkgs-unstable,
+  pkgs-unstable,
   ...
 }: {
   imports = [
@@ -26,6 +26,7 @@
       ddcutil
       moonlight-qt
       gh
+      pkgs-unstable.android-studio
     ];
     stateVersion = "25.11";
   };
