@@ -16,6 +16,7 @@
     procps
     pkgs-unstable.gemini-cli
     pkgs-unstable.codex
+    pkgs-unstable.opencode
   ];
 
   xdg.configFile."xxh/config.xxhc" = {
