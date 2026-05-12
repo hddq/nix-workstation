@@ -49,6 +49,7 @@ in {
         "files.autosave" = "afterDelay";
         "files.autoSaveDelay" = 1000;
         "git.autofetch" = true;
+        "diffEditor.renderSideBySide" = false;
         "[json]" = {
           "editor.defaultFormatter" = "esbenp.prettier-vscode";
         };
