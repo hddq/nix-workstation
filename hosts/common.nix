@@ -14,6 +14,15 @@
 
   zramSwap.enable = true;
 
+  services.syncthing = {
+    enable = true;
+    user = "hddq";
+    group = "users";
+    dataDir = "/home/hddq/Sync";
+    configDir = "/home/hddq/.config/syncthing";
+    openDefaultPorts = true;
+  };
+
   networking = {
     firewall = {
       enable = true;
