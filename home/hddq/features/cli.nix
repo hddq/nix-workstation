@@ -14,7 +14,7 @@
     xxh
     btop
     procps
-    pkgs-unstable.gemini-cli
+    pkgs-unstable.antigravity-cli
     pkgs-unstable.codex
     pkgs-unstable.opencode
   ];
@@ -40,7 +40,6 @@
       shellAliases = {
         k = "kubectl";
         kn = "kubens";
-        g = "gemini";
         ls = "eza --group-directories-first --icons";
         ll = "eza -lah --group-directories-first --icons";
         nos = "nh os switch";
@@ -53,7 +52,6 @@
       shellAliases = {
         ll = "ls -l";
         k = "kubectl";
-        g = "gemini";
         c = "codex";
         co = "code";
         nos = "nh os switch";
