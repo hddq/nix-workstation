@@ -7,6 +7,7 @@
     ./features/browser.nix
     ./features/media.nix
     ./features/cli.nix
+    ./features/tmux.nix
     ./features/immich.nix
     ./features/desktop
     ./features/vscode.nix

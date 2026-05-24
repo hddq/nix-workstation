@@ -40,6 +40,7 @@
       shellAliases = {
         k = "kubectl";
         kn = "kubens";
+        t = "tmux";
         ls = "eza --group-directories-first --icons";
         ll = "eza -lah --group-directories-first --icons";
         nos = "nh os switch";
@@ -52,6 +53,7 @@
       shellAliases = {
         ll = "ls -l";
         k = "kubectl";
+        t = "tmux";
         c = "codex";
         co = "code";
         nos = "nh os switch";
