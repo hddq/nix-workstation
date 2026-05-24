@@ -31,6 +31,7 @@ in {
         pkgs.vscode-extensions.tamasfe.even-better-toml
         pkgs.vscode-extensions.cweijan.vscode-database-client2
         pkgs.vscode-extensions.svelte.svelte-vscode
+        pkgs.vscode-extensions.signageos.signageos-vscode-sops
         # From nix-vscode-extensions flake (Marketplace)
         mkt.atomicspirit.nix-embedded-highlighter
       ];
