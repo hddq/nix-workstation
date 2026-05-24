@@ -41,6 +41,7 @@
         k = "kubectl";
         kn = "kubens";
         g = "gemini";
+        t = "tmux";
         ls = "eza --group-directories-first --icons";
         ll = "eza -lah --group-directories-first --icons";
         nos = "nh os switch";
@@ -54,6 +55,7 @@
         ll = "ls -l";
         k = "kubectl";
         g = "gemini";
+        t = "tmux";
         c = "codex";
         co = "code";
         nos = "nh os switch";
