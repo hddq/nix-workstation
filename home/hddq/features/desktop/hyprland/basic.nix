@@ -13,6 +13,7 @@
 
     wayland.windowManager.hyprland = {
       enable = true;
+      configType = "hyprlang";
       settings = {
         "$mainMod" = "SUPER";
         monitor = osConfig.modules.desktop.hyprland.monitors;
@@ -47,10 +48,10 @@
           accel_profile = "flat";
         };
 
-        windowrulev2 = [
-          "workspace 1, class:(zen-beta)"
-          "workspace 11, class:(obsidian)"
-          "workspace 11, initialClass:^(chrome-www.tradingview.com.*)$"
+        windowrule = [
+          "workspace 1, match:class (zen-beta)"
+          "workspace 11, match:class (obsidian)"
+          "workspace 11, match:initial_class ^(chrome-www.tradingview.com.*)$"
         ];
       };
     };
