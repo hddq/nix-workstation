@@ -9,10 +9,15 @@
       settings = {
         ipc = "on";
         splash = false;
-        preload = ["${../../../../../wallpaper.png}"];
         wallpaper = [
-          "DP-1,${../../../../../wallpaper.png}"
-          "HDMI-A-1,${../../../../../wallpaper.png}"
+          {
+            monitor = "DP-1";
+            path = "${../../../../../wallpaper.png}";
+          }
+          {
+            monitor = "HDMI-A-1";
+            path = "${../../../../../wallpaper.png}";
+          }
         ];
       };
     };
