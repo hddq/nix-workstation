@@ -51,7 +51,7 @@
         "$mainMod, B, exec, pkill -SIGUSR1 waybar"
 
         # Toggle Split
-        "$mainMod, S, togglesplit,"
+        "$mainMod, S, layoutmsg, togglesplit"
 
         # Lock Screen
         "$mainMod, L, exec, loginctl lock-session"
