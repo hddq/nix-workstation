@@ -13,23 +13,15 @@
   config = {
     # --- Nix Settings ---
     nix = {
-      settings = {
-        experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = true;
-      };
+      settings.experimental-features = ["nix-command" "flakes"];
       optimise.automatic = true;
-      gc = {
-        automatic = true;
-        dates = "daily";
-        options = "--delete-older-than 3d";
-      };
     };
     nixpkgs.config.allowUnfree = true;
 
     programs.nh = {
       enable = true;
       clean.enable = true;
-      clean.extraArgs = "--keep-since 7d --keep 3";
+      clean.extraArgs = "--keep-since 2d --keep 2";
       flake = "/home/hddq/nixos-config";
     };
 
