@@ -12,6 +12,8 @@
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   zramSwap.enable = true;
 
   services.syncthing = {
