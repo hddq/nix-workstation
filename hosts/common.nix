@@ -75,5 +75,8 @@
     users.hddq = import ../home/hddq/default.nix;
   };
 
+  # --- QEMU Guest Agent ---
+  services.qemuGuest.enable = true;
+
   system.stateVersion = "25.11";
 }
