@@ -70,7 +70,7 @@
       enable = true;
       settings = {
         user.name = "hddq";
-        user.email = "125512521+hddq@users.noreply.github.com";
+        user.email = "hddqgit@gmail.com";
       };
     };
   };
