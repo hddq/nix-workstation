@@ -32,6 +32,7 @@ in {
         pkgs.vscode-extensions.cweijan.vscode-database-client2
         pkgs.vscode-extensions.svelte.svelte-vscode
         pkgs.vscode-extensions.signageos.signageos-vscode-sops
+        pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
         # From nix-vscode-extensions flake (Marketplace)
         mkt.atomicspirit.nix-embedded-highlighter
       ];
