@@ -62,6 +62,10 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    initrd.kernelModules = ["i915"];
+    initrd.kernelModules = ["xe"];
+    kernelParams = [
+      "i915.force_probe=!a780"
+      "xe.force_probe=a780"
+    ];
   };
 }
