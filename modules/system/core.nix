@@ -121,6 +121,7 @@
       git
       wget
       curl
+      jq
     ];
 
     # --- Fonts ---
