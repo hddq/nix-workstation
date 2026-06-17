@@ -28,11 +28,7 @@
     force = true;
   };
 
-  programs.keychain = {
-    enable = true;
-    enableFishIntegration = true;
-    keys = ["hddq-ssh"];
-  };
+  services.ssh-agent.enable = true;
 
   programs = {
     fish = {
