@@ -64,7 +64,7 @@
 
     git = {
       enable = true;
-      ignores = [ ".antigravitycli" ];
+      ignores = [".antigravitycli"];
       settings = {
         user.name = "hddq";
         user.email = "hddqgit@gmail.com";
