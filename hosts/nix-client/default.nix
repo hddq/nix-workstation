@@ -12,8 +12,6 @@
     matchConfig.Name = "ens18";
     networkConfig = {
       Address = "192.168.255.10/24";
-      Gateway = "192.168.255.1";
-      DNS = ["192.168.40.11" "192.168.40.12"];
     };
   };
 
@@ -24,12 +22,6 @@
       Gateway = "192.168.10.1";
       DNS = ["192.168.40.11" "192.168.40.12"];
     };
-    routes = [
-      {
-        Destination = "10.66.66.0/24";
-        Gateway = "192.168.10.1";
-      }
-    ];
   };
 
   modules.desktop = {
