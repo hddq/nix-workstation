@@ -7,7 +7,7 @@
     name = "feishin-webapp";
     desktopName = "Feishin (Web)";
     genericName = "Music Player";
-    exec = "helium --app=https://feishin.hddq-k8s.duckdns.org/ --class=feishin-webapp --name=feishin-webapp";
+    exec = "helium --app=https://feishin.lab.hddq.org/ --class=feishin-webapp --name=feishin-webapp";
     icon = "${pkgs.feishin}/share/icons/hicolor/512x512/apps/feishin.png";
     terminal = false;
     categories = ["AudioVideo" "Audio" "Player" "Music"];
