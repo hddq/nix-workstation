@@ -33,6 +33,7 @@ in {
         pkgs.vscode-extensions.svelte.svelte-vscode
         pkgs.vscode-extensions.signageos.signageos-vscode-sops
         pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+        pkgs.vscode-extensions.hashicorp.terraform
         # From nix-vscode-extensions flake (Marketplace)
         mkt.atomicspirit.nix-embedded-highlighter
       ];
