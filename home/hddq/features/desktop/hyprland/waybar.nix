@@ -13,7 +13,7 @@
           output = [osConfig.modules.desktop.hyprland.mainMonitor];
           modules-left = ["hyprland/workspaces" "mpris"];
           modules-center = ["custom/userhost"];
-          modules-right = ["load" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
+          modules-right = ["load" "memory" "disk" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
 
           "custom/userhost" = {
             exec = "echo $(whoami)@$(hostname)";
@@ -32,6 +32,17 @@
             format = "L: {load1} {load5} {load15}";
             interval = 10;
             tooltip = false;
+          };
+
+          "memory" = {
+            format = "RAM: {percentage}%";
+            interval = 10;
+          };
+
+          "disk" = {
+            format = "Disk: {percentage_used}%";
+            path = "/";
+            interval = 30;
           };
 
           "custom/brightness-3" = {
@@ -87,6 +98,8 @@
                @define-color blu   #7aa2f7;
                @define-color mag   #ad8ee6;
                @define-color cyn   #0db9d7;
+               @define-color org   #ff9e64;
+               @define-color teal  #73daca;
                @define-color brblk #444b6a;
                @define-color white #ffffff;
 
@@ -127,7 +140,9 @@
                #custom-brightness-3,
                #custom-brightness-9,
                #custom-userhost,
-               #load {
+               #load,
+               #memory,
+               #disk {
                    padding: 0 5px;
                    color: @white;
                }
@@ -161,6 +176,16 @@
                #load {
                    color: @grn;
                    border-bottom: 2px solid @grn;
+               }
+
+               #memory {
+                   color: @org;
+                   border-bottom: 2px solid @org;
+               }
+
+               #disk {
+                   color: @teal;
+                   border-bottom: 2px solid @teal;
                }
 
                #custom-userhost {
