@@ -4,8 +4,8 @@
   ...
 }: let
   feishin-icon = pkgs.fetchurl {
-  url = "https://raw.githubusercontent.com/jeffvli/feishin/development/resources/icon.png";
-  hash = "sha256-v4QJZ9k6z4JkqOx8KPWKOgFEBpHz45IZ1kcBCHoRMso=";
+    url = "https://raw.githubusercontent.com/jeffvli/feishin/development/resources/icon.png";
+    hash = "sha256-v4QJZ9k6z4JkqOx8KPWKOgFEBpHz45IZ1kcBCHoRMso=";
   };
   feishin-webapp = pkgs.makeDesktopItem {
     name = "feishin-webapp";
