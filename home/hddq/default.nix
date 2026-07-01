@@ -28,6 +28,7 @@
       moonlight-qt
       gh
       pkgs-unstable.android-studio
+      ledger-live-desktop
     ];
     stateVersion = "25.11";
   };

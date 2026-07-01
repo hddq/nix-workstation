@@ -129,6 +129,8 @@
       nerd-fonts._0xproto
     ];
 
+    hardware.ledger.enable = true;
+
     programs.fish.enable = true;
   };
 }
