@@ -67,7 +67,7 @@
       ignores = [".antigravitycli"];
       settings = {
         user.name = "hddq";
-        user.email = "hddqgit@gmail.com";
+        user.email = "git@hddq.org";
       };
     };
   };
