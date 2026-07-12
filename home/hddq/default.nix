@@ -28,6 +28,7 @@
       moonlight-qt
       gh
       ledger-live-desktop
+      piper
     ];
     stateVersion = "25.11";
   };

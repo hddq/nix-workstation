@@ -48,6 +48,8 @@
     };
   };
 
+  services.ratbagd.enable = true;
+
   # --- Bootloader ---
   boot = {
     loader = {
