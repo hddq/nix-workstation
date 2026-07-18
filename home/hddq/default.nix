@@ -29,6 +29,7 @@
       gh
       ledger-live-desktop
       piper
+      anki
     ];
     stateVersion = "25.11";
   };
