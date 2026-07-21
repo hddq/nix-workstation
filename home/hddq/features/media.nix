@@ -6,7 +6,10 @@
     config = {
       profile = "gpu-hq";
       vo = "gpu";
-      hwdec = "auto-safe";
+      gpu-context = "wayland";
+      gpu-api = "opengl";
+      hwdec = "vaapi";
+      hwdec-codecs = "all";
       ytdl-format = "bestvideo[height<=1080]+bestaudio/best";
     };
   };
