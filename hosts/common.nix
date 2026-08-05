@@ -47,20 +47,44 @@
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
+    autoPrune = {
+      enable = true;
+      dates = "weekly";
+      flags = ["--all"];
+    };
   };
 
-  environment.systemPackages = [
-    pkgs.podman-compose
-  ];
+  systemd.user = {
+    services = {
+      podman-prune = {
+        description = "Podman prune (rootless)";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.lib.getExe pkgs.podman} system prune --all --force";
+        };
+      };
 
-  systemd.user.services.podman-dev = {
-    description = "Podman API Service (rootless)";
-    wantedBy = ["default.target"];
+      podman-dev = {
+        description = "Podman API Service (rootless)";
+        wantedBy = ["default.target"];
 
-    serviceConfig = {
-      ExecStart = "${pkgs.lib.getExe pkgs.podman} system service --time=0";
-      Restart = "always";
-      RestartSec = 2;
+        serviceConfig = {
+          ExecStart = "${pkgs.lib.getExe pkgs.podman} system service --time=0";
+          Restart = "always";
+          RestartSec = 2;
+        };
+      };
+    };
+
+    timers = {
+      podman-prune = {
+        description = "Podman prune timer (rootless)";
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnCalendar = "weekly";
+          Persistent = true;
+        };
+      };
     };
   };
 
