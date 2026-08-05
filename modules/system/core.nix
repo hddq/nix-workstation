@@ -139,6 +139,13 @@
 
     hardware.ledger.enable = true;
 
+    boot.tmp.cleanOnBoot = true;
+
+    systemd.user.tmpfiles.rules = [
+      "e %h/.cache/ - - - 7d"
+      "e %h/Downloads/ - - - 7d"
+    ];
+
     programs.fish.enable = true;
   };
 }
