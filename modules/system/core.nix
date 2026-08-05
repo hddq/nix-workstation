@@ -20,9 +20,11 @@
 
     programs.nh = {
       enable = true;
-      clean.enable = true;
-      clean.dates = "03:00";
-      clean.extraArgs = "--keep-since 2d --keep 2";
+      clean = {
+        enable = true;
+        dates = "03:00";
+        extraArgs = "--keep-since 2d --keep 2";
+      };
       flake = "/home/hddq/nixos-config";
     };
 
