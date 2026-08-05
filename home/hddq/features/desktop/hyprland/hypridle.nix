@@ -16,7 +16,7 @@
         };
 
         listener = let
-          is-playing = "${pkgs.playerctl}/bin/playerctl status 2>/dev/null | grep -q Playing";
+          is-playing = "${pkgs.coreutils}/bin/timeout 3s ${pkgs.playerctl}/bin/playerctl status 2>/dev/null | grep -q Playing";
         in
           lib.optionals osConfig.modules.desktop.hyprland.monitorSleep [
             {
