@@ -88,6 +88,10 @@
     };
   };
 
+  environment.systemPackages = [
+    pkgs.podman-compose
+  ];
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
