@@ -31,6 +31,12 @@
   services.ssh-agent.enable = true;
 
   programs = {
+    zoxide = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
+
     fish = {
       enable = true;
       shellAliases = {
