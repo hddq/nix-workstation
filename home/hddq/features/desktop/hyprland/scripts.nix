@@ -8,25 +8,57 @@
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
     home.packages = with pkgs; let
       ddcutil-brightness = writeShellScriptBin "ddcutil-brightness" ''        # bash
-               monitor_buses=$(${pkgs.coreutils}/bin/timeout 3s ${ddcutil}/bin/ddcutil detect --brief 2>/dev/null | awk '/I2C bus:/ {print $3}' | cut -d- -f2)
+               get_buses() {
+                 cache_file="/tmp/ddcutil_buses"
+                 if [ -s "$cache_file" ]; then
+                   cat "$cache_file"
+                   return
+                 fi
+                 buses=$(${pkgs.coreutils}/bin/timeout 10s ${ddcutil}/bin/ddcutil detect --brief 2>/dev/null | awk '/I2C bus:/ {print $3}' | cut -d- -f2)
+                 if [ -n "$buses" ]; then
+                   echo "$buses" > "$cache_file"
+                   echo "$buses"
+                 fi
+               }
+
+               set_bus_brightness() {
+                 local bus=$1
+                 local val=$2
+                 for attempt in 1 2 3; do
+                   if ${pkgs.coreutils}/bin/timeout 5s ${ddcutil}/bin/ddcutil setvcp 10 "$val" --bus "$bus" --noverify 2>/dev/null; then
+                     return 0
+                   fi
+                   sleep 0.5
+                 done
+                 return 1
+               }
+
+               monitor_buses=$(get_buses)
 
                case "$1" in
                  save)
                    mkdir -p /tmp/ddcutil_brightness
                    for bus in $monitor_buses; do
                       # Output format: VCP code 0x10 (Brightness): current value = 50, max value = 100
-                      val=$(${pkgs.coreutils}/bin/timeout 3s ${ddcutil}/bin/ddcutil getvcp 10 --bus $bus 2>/dev/null | awk -F'current value = ' '{print $2}' | awk -F',' '{print $1}' | tr -d ' ')
+                      val=$(${pkgs.coreutils}/bin/timeout 5s ${ddcutil}/bin/ddcutil getvcp 10 --bus $bus 2>/dev/null | awk -F'current value = ' '{print $2}' | awk -F',' '{print $1}' | tr -d ' ')
                       if [ -n "$val" ]; then
-                        echo "$val" > /tmp/ddcutil_brightness/$bus
+                        # Do not overwrite saved brightness if already dimmed or if state exists
+                        if [ "$val" -gt 10 ] || [ ! -f "/tmp/ddcutil_brightness/$bus" ]; then
+                          echo "$val" > /tmp/ddcutil_brightness/$bus
+                        fi
                       fi
                    done
                    ;;
                  restore)
                    for bus in $monitor_buses; do
-                      if [ -f /tmp/ddcutil_brightness/$bus ]; then
-                        val=$(cat /tmp/ddcutil_brightness/$bus)
+                      if [ -f "/tmp/ddcutil_brightness/$bus" ]; then
+                        val=$(cat "/tmp/ddcutil_brightness/$bus")
                         if [ -n "$val" ]; then
-                          ${pkgs.coreutils}/bin/timeout 3s ${ddcutil}/bin/ddcutil setvcp 10 "$val" --bus $bus &
+                          (
+                            if set_bus_brightness "$bus" "$val"; then
+                              rm -f "/tmp/ddcutil_brightness/$bus"
+                            fi
+                          ) &
                         fi
                       fi
                    done
@@ -34,7 +66,7 @@
                    ;;
                  set)
                    for bus in $monitor_buses; do
-                     ${pkgs.coreutils}/bin/timeout 3s ${ddcutil}/bin/ddcutil setvcp 10 "$2" --bus $bus &
+                     set_bus_brightness "$bus" "$2" &
                    done
                    wait
                    ;;
