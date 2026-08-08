@@ -14,6 +14,7 @@
     xxh
     btop
     procps
+    ldns
     pkgs-unstable.antigravity-cli
     pkgs-unstable.codex
     pkgs-unstable.opencode
