@@ -30,6 +30,7 @@
       ledger-live-desktop
       piper
       anki
+      hexchat
     ];
     stateVersion = "25.11";
   };
