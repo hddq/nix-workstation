@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }: {
   options.modules.system.keyd.enable = lib.mkOption {
@@ -15,6 +16,10 @@
     nix = {
       settings.experimental-features = ["nix-command" "flakes"];
       optimise.automatic = true;
+      registry = {
+        n.flake = inputs.nixpkgs;
+        nu.flake = inputs.nixpkgs-unstable;
+      };
     };
     nixpkgs.config.allowUnfree = true;
 
