@@ -31,7 +31,6 @@ in {
         pkgs.vscode-extensions.tamasfe.even-better-toml
         pkgs.vscode-extensions.cweijan.vscode-database-client2
         pkgs.vscode-extensions.svelte.svelte-vscode
-        pkgs.vscode-extensions.signageos.signageos-vscode-sops
         pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
         pkgs.vscode-extensions.hashicorp.terraform
         # From nix-vscode-extensions flake (Marketplace)
