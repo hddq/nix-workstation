@@ -1,5 +1,8 @@
 {pkgs, ...}: {
-  home.packages = [pkgs.imv];
+  home.packages = with pkgs; [
+    imv
+    spek
+  ];
 
   programs.mpv = {
     enable = true;
