@@ -1,8 +1,12 @@
 {pkgs, ...}: let
   envFile = "/home/hddq/nixos-config/.env";
   credsFile = "/run/keys/smb-vaults";
+  automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
 in {
-  environment.systemPackages = [pkgs.cifs-utils];
+  environment.systemPackages = with pkgs; [
+    cifs-utils
+    nfs-utils
+  ];
 
   systemd.services.prepare-smb-creds = {
     description = "Prepare SMB credentials from .env";
@@ -29,8 +33,12 @@ in {
   fileSystems."/home/hddq/nas" = {
     device = "//192.168.20.12/hddq";
     fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts},credentials=${credsFile},uid=1000,gid=100"];
+    options = ["${automount_opts},credentials=${credsFile},uid=1000,gid=100"];
+  };
+
+  fileSystems."/home/hddq/media" = {
+    device = "192.168.20.12:/mnt/ssd1/media";
+    fsType = "nfs";
+    options = [automount_opts];
   };
 }
