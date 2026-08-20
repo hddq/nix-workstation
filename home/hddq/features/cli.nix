@@ -15,6 +15,7 @@
     btop
     procps
     ldns
+    exiftool
     pkgs-unstable.antigravity-cli
     pkgs-unstable.codex
     pkgs-unstable.opencode
