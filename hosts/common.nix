@@ -9,6 +9,7 @@
     ../modules/system/core.nix
     ../modules/system/desktop
     ../modules/system/network-shares.nix
+    ../modules/system/pia-vpn.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 

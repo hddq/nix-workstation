@@ -13,7 +13,7 @@
           output = [osConfig.modules.desktop.hyprland.mainMonitor];
           modules-left = ["hyprland/workspaces" "mpris"];
           modules-center = ["custom/userhost"];
-          modules-right = ["load" "memory" "disk" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
+          modules-right = ["load" "memory" "disk" "custom/vpn" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
 
           "custom/userhost" = {
             exec = "echo $(whoami)@$(hostname)";
@@ -73,6 +73,15 @@
             format = "{:%Y-%m-%d %H:%M:%S}";
             interval = 1;
             tooltip = false;
+          };
+
+          "custom/vpn" = {
+            exec = "pia-vpn waybar";
+            return-type = "json";
+            interval = 5;
+            on-click = "pia-vpn toggle";
+            signal = 11;
+            tooltip = true;
           };
 
           "wireplumber" = {
@@ -137,6 +146,7 @@
                #clock,
                #wireplumber,
                #bluetooth,
+               #custom-vpn,
                #custom-brightness-3,
                #custom-brightness-9,
                #custom-userhost,
@@ -145,6 +155,22 @@
                #disk {
                    padding: 0 5px;
                    color: @white;
+               }
+
+               #custom-vpn {
+                   color: @grn;
+                   border-bottom: 2px solid @grn;
+               }
+
+               #custom-vpn.disconnected {
+                   color: @red;
+                   border-bottom: 2px solid @red;
+               }
+
+               #custom-vpn.connecting,
+               #custom-vpn.error {
+                   color: @ylw;
+                   border-bottom: 2px solid @ylw;
                }
 
                #mpris {
