@@ -77,152 +77,152 @@
       gnugrep
       findutils
     ];
-    text = ''        # bash
-      set -euo pipefail
+    text = ''              # bash
+            set -euo pipefail
 
-      STATUS_DIR="/run/pia-vpn"
-      WG_CONF_DIR="/run/wireguard"
-      WG_CONF="$WG_CONF_DIR/pia.conf"
-      mkdir -p "$STATUS_DIR" "$WG_CONF_DIR"
-      chmod 700 "$STATUS_DIR" "$WG_CONF_DIR"
+            STATUS_DIR="/run/pia-vpn"
+            WG_CONF_DIR="/run/wireguard"
+            WG_CONF="$WG_CONF_DIR/pia.conf"
+            mkdir -p "$STATUS_DIR" "$WG_CONF_DIR"
+            chmod 700 "$STATUS_DIR" "$WG_CONF_DIR"
 
-      # 1. Read credentials
-      ENV_FILE="${cfg.envFile}"
-      if [ ! -f "$ENV_FILE" ]; then
-        echo "Error: Environment file $ENV_FILE not found." >&2
-        exit 1
-      fi
+            # 1. Read credentials
+            ENV_FILE="${cfg.envFile}"
+            if [ ! -f "$ENV_FILE" ]; then
+              echo "Error: Environment file $ENV_FILE not found." >&2
+              exit 1
+            fi
 
-      PIA_USER=$(grep -E '^[[:space:]]*PIA_USER=' "$ENV_FILE" | head -n1 | cut -d'=' -f2- | tr -d '"\047' | xargs)
-      PIA_PASS=$(grep -E '^[[:space:]]*PIA_PASS=' "$ENV_FILE" | head -n1 | cut -d'=' -f2- | tr -d '"\047' | xargs)
-      REGION_OVERRIDE=$(grep -E '^[[:space:]]*PIA_REGION=' "$ENV_FILE" | head -n1 | cut -d'=' -f2- | tr -d '"\047' | xargs || true)
-      TARGET_REGION="''${REGION_OVERRIDE:-${cfg.defaultRegion}}"
+            PIA_USER=$(grep -E '^[[:space:]]*PIA_USER=' "$ENV_FILE" | head -n1 | cut -d'=' -f2- | tr -d '"\047' | xargs)
+            PIA_PASS=$(grep -E '^[[:space:]]*PIA_PASS=' "$ENV_FILE" | head -n1 | cut -d'=' -f2- | tr -d '"\047' | xargs)
+            REGION_OVERRIDE=$(grep -E '^[[:space:]]*PIA_REGION=' "$ENV_FILE" | head -n1 | cut -d'=' -f2- | tr -d '"\047' | xargs || true)
+            TARGET_REGION="''${REGION_OVERRIDE:-${cfg.defaultRegion}}"
 
-      if [ -z "$PIA_USER" ] || [ -z "$PIA_PASS" ]; then
-        echo "Error: PIA_USER and/or PIA_PASS missing in $ENV_FILE" >&2
-        exit 1
-      fi
+            if [ -z "$PIA_USER" ] || [ -z "$PIA_PASS" ]; then
+              echo "Error: PIA_USER and/or PIA_PASS missing in $ENV_FILE" >&2
+              exit 1
+            fi
 
-      echo "Authenticating with Private Internet Access (POST token request)..."
-      TOKEN_RESP=$(curl -s --max-time 15 --location \
-        --request POST "https://www.privateinternetaccess.com/api/client/v2/token" \
-        --form "username=$PIA_USER" \
-        --form "password=$PIA_PASS" || true)
+            echo "Authenticating with Private Internet Access (POST token request)..."
+            TOKEN_RESP=$(curl -s --max-time 15 --location \
+              --request POST "https://www.privateinternetaccess.com/api/client/v2/token" \
+              --form "username=$PIA_USER" \
+              --form "password=$PIA_PASS" || true)
 
-      PIA_TOKEN=$(echo "$TOKEN_RESP" | jq -r '.token // empty' 2>/dev/null || true)
+            PIA_TOKEN=$(echo "$TOKEN_RESP" | jq -r '.token // empty' 2>/dev/null || true)
 
-      if [ -z "$PIA_TOKEN" ]; then
-        echo "Error: Failed to obtain PIA token. Check credentials." >&2
-        echo "Server response: $TOKEN_RESP" >&2
-        exit 1
-      fi
+            if [ -z "$PIA_TOKEN" ]; then
+              echo "Error: Failed to obtain PIA token. Check credentials." >&2
+              echo "Server response: $TOKEN_RESP" >&2
+              exit 1
+            fi
 
-      echo "Fetching PIA server list..."
-      SERVERLIST_RAW=$(curl -s --max-time 10 "https://serverlist.piaservers.net/vpninfo/servers/v4" | head -n 1)
+            echo "Fetching PIA server list..."
+            SERVERLIST_RAW=$(curl -s --max-time 10 "https://serverlist.piaservers.net/vpninfo/servers/v4" | head -n 1)
 
-      # Match region
-      REGION_INFO=$(jq -c --arg r "$TARGET_REGION" -f "${filterRegionJq}" <<< "$SERVERLIST_RAW" | head -n 1 || true)
+            # Match region
+            REGION_INFO=$(jq -c --arg r "$TARGET_REGION" -f "${filterRegionJq}" <<< "$SERVERLIST_RAW" | head -n 1 || true)
 
-      if [ -z "$REGION_INFO" ]; then
-        echo "Warning: Region '$TARGET_REGION' not found, falling back to Poland..."
-        REGION_INFO=$(jq -c -f "${filterFallbackJq}" <<< "$SERVERLIST_RAW" | head -n 1 || true)
-        if [ -z "$REGION_INFO" ]; then
-          REGION_INFO=$(jq -c '.regions[] | select(.servers.wg != null)' <<< "$SERVERLIST_RAW" | head -n 1)
-        fi
-      fi
+            if [ -z "$REGION_INFO" ]; then
+              echo "Warning: Region '$TARGET_REGION' not found, falling back to Poland..."
+              REGION_INFO=$(jq -c -f "${filterFallbackJq}" <<< "$SERVERLIST_RAW" | head -n 1 || true)
+              if [ -z "$REGION_INFO" ]; then
+                REGION_INFO=$(jq -c '.regions[] | select(.servers.wg != null)' <<< "$SERVERLIST_RAW" | head -n 1)
+              fi
+            fi
 
-      REGION_ID=$(echo "$REGION_INFO" | jq -r '.id')
-      REGION_NAME=$(echo "$REGION_INFO" | jq -r '.name')
-      SERVER_IP=$(echo "$REGION_INFO" | jq -r '.servers.wg[0].ip')
-      SERVER_CN=$(echo "$REGION_INFO" | jq -r '.servers.wg[0].cn')
-      DNS_SERVER=$(echo "$REGION_INFO" | jq -r '.dns // "10.0.0.242"')
+            REGION_ID=$(echo "$REGION_INFO" | jq -r '.id')
+            REGION_NAME=$(echo "$REGION_INFO" | jq -r '.name')
+            SERVER_IP=$(echo "$REGION_INFO" | jq -r '.servers.wg[0].ip')
+            SERVER_CN=$(echo "$REGION_INFO" | jq -r '.servers.wg[0].cn')
+            DNS_SERVER=$(echo "$REGION_INFO" | jq -r '.dns // "10.0.0.242"')
 
-      echo "Selected Region: $REGION_NAME ($REGION_ID) at $SERVER_IP ($SERVER_CN)"
+            echo "Selected Region: $REGION_NAME ($REGION_ID) at $SERVER_IP ($SERVER_CN)"
 
-      # Generate WireGuard Keypair
-      PRIVKEY=$(wg genkey)
-      PUBKEY=$(echo "$PRIVKEY" | wg pubkey)
+            # Generate WireGuard Keypair
+            PRIVKEY=$(wg genkey)
+            PUBKEY=$(echo "$PRIVKEY" | wg pubkey)
 
-      echo "Registering WireGuard public key with PIA server..."
-      REGISTER_RESP=$(curl -s -G --max-time 15 \
-        --connect-to "$SERVER_CN::$SERVER_IP:" \
-        --cacert "${piaCaCert}" \
-        "https://$SERVER_CN:1337/addKey" \
-        --data-urlencode "pt=$PIA_TOKEN" \
-        --data-urlencode "pubkey=$PUBKEY" || true)
+            echo "Registering WireGuard public key with PIA server..."
+            REGISTER_RESP=$(curl -s -G --max-time 15 \
+              --connect-to "$SERVER_CN::$SERVER_IP:" \
+              --cacert "${piaCaCert}" \
+              "https://$SERVER_CN:1337/addKey" \
+              --data-urlencode "pt=$PIA_TOKEN" \
+              --data-urlencode "pubkey=$PUBKEY" || true)
 
-      STATUS=$(echo "$REGISTER_RESP" | jq -r '.status // empty' 2>/dev/null || true)
-      if [ "$STATUS" != "OK" ]; then
-        echo "Error: Key registration with PIA server failed (CA certificate verification failed or server error)." >&2
-        echo "Server response: $REGISTER_RESP" >&2
-        exit 1
-      fi
+            STATUS=$(echo "$REGISTER_RESP" | jq -r '.status // empty' 2>/dev/null || true)
+            if [ "$STATUS" != "OK" ]; then
+              echo "Error: Key registration with PIA server failed (CA certificate verification failed or server error)." >&2
+              echo "Server response: $REGISTER_RESP" >&2
+              exit 1
+            fi
 
-      SERVER_PUBKEY=$(echo "$REGISTER_RESP" | jq -r '.server_key')
-      SERVER_PORT=$(echo "$REGISTER_RESP" | jq -r '.server_port')
-      PEER_IP=$(echo "$REGISTER_RESP" | jq -r '.peer_ip')
-      DNS_SERVERS=$(echo "$REGISTER_RESP" | jq -r '.dns_servers // ["10.0.0.242"] | join(", ")')
+            SERVER_PUBKEY=$(echo "$REGISTER_RESP" | jq -r '.server_key')
+            SERVER_PORT=$(echo "$REGISTER_RESP" | jq -r '.server_port')
+            PEER_IP=$(echo "$REGISTER_RESP" | jq -r '.peer_ip')
+            DNS_SERVERS=$(echo "$REGISTER_RESP" | jq -r '.dns_servers // ["10.0.0.242"] | join(", ")')
 
-      # Detect default gateway to preserve LAN subnets
-      DEF_GW=$(ip route show default | awk '{print $3}' | head -n1 || true)
-      DEF_DEV=$(ip route show default | awk '{print $5}' | head -n1 || true)
+            # Detect default gateway to preserve LAN subnets
+            DEF_GW=$(ip route show default | awk '{print $3}' | head -n1 || true)
+            DEF_DEV=$(ip route show default | awk '{print $5}' | head -n1 || true)
 
-      LAN_BYPASS_UP=""
-      LAN_BYPASS_DOWN=""
-      if [ -n "$DEF_GW" ] && [ -n "$DEF_DEV" ]; then
-        LAN_BYPASS_UP="PostUp = ip route add 192.168.0.0/16 via $DEF_GW dev $DEF_DEV metric 50 2>/dev/null || true; ip route add 10.0.0.0/8 via $DEF_GW dev $DEF_DEV metric 50 2>/dev/null || true; ip route add 172.16.0.0/12 via $DEF_GW dev $DEF_DEV metric 50 2>/dev/null || true"
-        LAN_BYPASS_DOWN="PostDown = ip route del 192.168.0.0/16 metric 50 2>/dev/null || true; ip route del 10.0.0.0/8 metric 50 2>/dev/null || true; ip route del 172.16.0.0/12 metric 50 2>/dev/null || true"
-      fi
+            LAN_BYPASS_UP=""
+            LAN_BYPASS_DOWN=""
+            if [ -n "$DEF_GW" ] && [ -n "$DEF_DEV" ]; then
+              LAN_BYPASS_UP="PostUp = ip route add 192.168.0.0/16 via $DEF_GW dev $DEF_DEV metric 50 2>/dev/null || true; ip route add 10.0.0.0/8 via $DEF_GW dev $DEF_DEV metric 50 2>/dev/null || true; ip route add 172.16.0.0/12 via $DEF_GW dev $DEF_DEV metric 50 2>/dev/null || true"
+              LAN_BYPASS_DOWN="PostDown = ip route del 192.168.0.0/16 metric 50 2>/dev/null || true; ip route del 10.0.0.0/8 metric 50 2>/dev/null || true; ip route del 172.16.0.0/12 metric 50 2>/dev/null || true"
+            fi
 
-      # Killswitch firewall rules (strict leak prevention)
-      ${lib.optionalString cfg.killswitch ''
+            # Killswitch firewall rules (strict leak prevention)
+            ${lib.optionalString cfg.killswitch ''
         KILLSWITCH_UP="PostUp = iptables -N PIA_KILLSWITCH 2>/dev/null || iptables -F PIA_KILLSWITCH; iptables -C OUTPUT -j PIA_KILLSWITCH 2>/dev/null || iptables -I OUTPUT 1 -j PIA_KILLSWITCH; iptables -A PIA_KILLSWITCH -o lo -j ACCEPT; iptables -A PIA_KILLSWITCH -o pia -j ACCEPT; iptables -A PIA_KILLSWITCH -d $SERVER_IP -p udp --dport $SERVER_PORT -j ACCEPT; iptables -A PIA_KILLSWITCH -d 192.168.0.0/16 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 10.0.0.0/8 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 172.16.0.0/12 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 224.0.0.0/4 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 255.255.255.255/32 -j ACCEPT; iptables -A PIA_KILLSWITCH -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; iptables -A PIA_KILLSWITCH -j DROP; ip6tables -N PIA_KILLSWITCH 2>/dev/null || ip6tables -F PIA_KILLSWITCH; ip6tables -C OUTPUT -j PIA_KILLSWITCH 2>/dev/null || ip6tables -I OUTPUT 1 -j PIA_KILLSWITCH; ip6tables -A PIA_KILLSWITCH -o lo -j ACCEPT; ip6tables -A PIA_KILLSWITCH -d fe80::/10 -j ACCEPT; ip6tables -A PIA_KILLSWITCH -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; ip6tables -A PIA_KILLSWITCH -j DROP"
         KILLSWITCH_DOWN="PostDown = iptables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true; iptables -F PIA_KILLSWITCH 2>/dev/null || true; iptables -X PIA_KILLSWITCH 2>/dev/null || true; ip6tables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true; ip6tables -F PIA_KILLSWITCH 2>/dev/null || true; ip6tables -X PIA_KILLSWITCH 2>/dev/null || true"
       ''}
-      ${lib.optionalString (!cfg.killswitch) ''
+            ${lib.optionalString (!cfg.killswitch) ''
         KILLSWITCH_UP=""
         KILLSWITCH_DOWN=""
       ''}
 
-      # Build WireGuard config
-      EFFECTIVE_DNS="''${DNS_SERVERS:-$DNS_SERVER}"
-      cat > "$WG_CONF" <<EOF
-[Interface]
-Address = $PEER_IP/32
-PrivateKey = $PRIVKEY
-DNS = $EFFECTIVE_DNS
-$LAN_BYPASS_UP
-$LAN_BYPASS_DOWN
-$KILLSWITCH_UP
-$KILLSWITCH_DOWN
+            # Build WireGuard config
+            EFFECTIVE_DNS="''${DNS_SERVERS:-$DNS_SERVER}"
+            cat > "$WG_CONF" <<EOF
+      [Interface]
+      Address = $PEER_IP/32
+      PrivateKey = $PRIVKEY
+      DNS = $EFFECTIVE_DNS
+      $LAN_BYPASS_UP
+      $LAN_BYPASS_DOWN
+      $KILLSWITCH_UP
+      $KILLSWITCH_DOWN
 
-[Peer]
-PublicKey = $SERVER_PUBKEY
-AllowedIPs = 0.0.0.0/0
-Endpoint = $SERVER_IP:$SERVER_PORT
-PersistentKeepalive = 25
-EOF
-      chmod 600 "$WG_CONF"
+      [Peer]
+      PublicKey = $SERVER_PUBKEY
+      AllowedIPs = 0.0.0.0/0
+      Endpoint = $SERVER_IP:$SERVER_PORT
+      PersistentKeepalive = 25
+      EOF
+            chmod 600 "$WG_CONF"
 
-      # Teardown any previous connection
-      wg-quick down "$WG_CONF" 2>/dev/null || true
+            # Teardown any previous connection
+            wg-quick down "$WG_CONF" 2>/dev/null || true
 
-      echo "Bringing up WireGuard tunnel..."
-      wg-quick up "$WG_CONF"
+            echo "Bringing up WireGuard tunnel..."
+            wg-quick up "$WG_CONF"
 
-      cat > "$STATUS_DIR/status.json" <<EOF
-{
-  "connected": true,
-  "region_id": "$REGION_ID",
-  "region_name": "$REGION_NAME",
-  "server_ip": "$SERVER_IP",
-  "peer_ip": "$PEER_IP",
-  "connected_at": "$(date -Iseconds)"
-}
-EOF
-      chmod 644 "$STATUS_DIR/status.json"
+            cat > "$STATUS_DIR/status.json" <<EOF
+      {
+        "connected": true,
+        "region_id": "$REGION_ID",
+        "region_name": "$REGION_NAME",
+        "server_ip": "$SERVER_IP",
+        "peer_ip": "$PEER_IP",
+        "connected_at": "$(date -Iseconds)"
+      }
+      EOF
+            chmod 644 "$STATUS_DIR/status.json"
 
-      echo "PIA VPN successfully connected to $REGION_NAME ($SERVER_IP) with active killswitch!"
+            echo "PIA VPN successfully connected to $REGION_NAME ($SERVER_IP) with active killswitch!"
     '';
   };
 
@@ -362,15 +362,15 @@ in {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = "${piaConnectScript}/bin/pia-vpn-connect";
-        ExecStop = pkgs.writeShellScript "pia-vpn-stop" ''        # bash
-          ${pkgs.wireguard-tools}/bin/wg-quick down /run/wireguard/pia.conf 2>/dev/null || true
-          ${pkgs.iptables}/bin/iptables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true
-          ${pkgs.iptables}/bin/iptables -F PIA_KILLSWITCH 2>/dev/null || true
-          ${pkgs.iptables}/bin/iptables -X PIA_KILLSWITCH 2>/dev/null || true
-          ${pkgs.iptables}/bin/ip6tables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true
-          ${pkgs.iptables}/bin/ip6tables -F PIA_KILLSWITCH 2>/dev/null || true
-          ${pkgs.iptables}/bin/ip6tables -X PIA_KILLSWITCH 2>/dev/null || true
-          rm -rf /run/pia-vpn /run/wireguard/pia.conf
+        ExecStop = pkgs.writeShellScript "pia-vpn-stop" ''          # bash
+            ${pkgs.wireguard-tools}/bin/wg-quick down /run/wireguard/pia.conf 2>/dev/null || true
+            ${pkgs.iptables}/bin/iptables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true
+            ${pkgs.iptables}/bin/iptables -F PIA_KILLSWITCH 2>/dev/null || true
+            ${pkgs.iptables}/bin/iptables -X PIA_KILLSWITCH 2>/dev/null || true
+            ${pkgs.iptables}/bin/ip6tables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true
+            ${pkgs.iptables}/bin/ip6tables -F PIA_KILLSWITCH 2>/dev/null || true
+            ${pkgs.iptables}/bin/ip6tables -X PIA_KILLSWITCH 2>/dev/null || true
+            rm -rf /run/pia-vpn /run/wireguard/pia.conf
         '';
       };
     };
