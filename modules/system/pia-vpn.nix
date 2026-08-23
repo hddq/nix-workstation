@@ -45,13 +45,13 @@
     -----END CERTIFICATE-----
   '';
 
-  filterRegionJq = pkgs.writeText "filter-region.jq" '' # bash
+  filterRegionJq = pkgs.writeText "filter-region.jq" ''
     .regions[]
     | select(.servers.wg != null)
     | select(.id == $r or (.name | test($r; "i")))
   '';
 
-  filterFallbackJq = pkgs.writeText "filter-fallback.jq" '' # bash
+  filterFallbackJq = pkgs.writeText "filter-fallback.jq" ''
     .regions[]
     | select(.servers.wg != null)
     | select(.id == "poland" or .country == "PL")
@@ -64,11 +64,12 @@
       jq
       wireguard-tools
       iproute2
+      iptables
       coreutils
       gnugrep
       findutils
     ];
-    text = '' # bash
+    text = ''        # bash
       set -euo pipefail
 
       STATUS_DIR="/run/pia-vpn"
@@ -165,6 +166,16 @@
         LAN_BYPASS_DOWN="PostDown = ip route del 192.168.0.0/16 metric 50 2>/dev/null || true; ip route del 10.0.0.0/8 metric 50 2>/dev/null || true; ip route del 172.16.0.0/12 metric 50 2>/dev/null || true"
       fi
 
+      # Killswitch firewall rules (strict leak prevention)
+      ${lib.optionalString cfg.killswitch ''
+        KILLSWITCH_UP="PostUp = iptables -N PIA_KILLSWITCH 2>/dev/null || iptables -F PIA_KILLSWITCH; iptables -C OUTPUT -j PIA_KILLSWITCH 2>/dev/null || iptables -I OUTPUT 1 -j PIA_KILLSWITCH; iptables -A PIA_KILLSWITCH -o lo -j ACCEPT; iptables -A PIA_KILLSWITCH -o pia -j ACCEPT; iptables -A PIA_KILLSWITCH -d $SERVER_IP -p udp --dport $SERVER_PORT -j ACCEPT; iptables -A PIA_KILLSWITCH -d 192.168.0.0/16 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 10.0.0.0/8 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 172.16.0.0/12 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 224.0.0.0/4 -j ACCEPT; iptables -A PIA_KILLSWITCH -d 255.255.255.255/32 -j ACCEPT; iptables -A PIA_KILLSWITCH -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; iptables -A PIA_KILLSWITCH -j DROP; ip6tables -N PIA_KILLSWITCH 2>/dev/null || ip6tables -F PIA_KILLSWITCH; ip6tables -C OUTPUT -j PIA_KILLSWITCH 2>/dev/null || ip6tables -I OUTPUT 1 -j PIA_KILLSWITCH; ip6tables -A PIA_KILLSWITCH -o lo -j ACCEPT; ip6tables -A PIA_KILLSWITCH -d fe80::/10 -j ACCEPT; ip6tables -A PIA_KILLSWITCH -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT; ip6tables -A PIA_KILLSWITCH -j DROP"
+        KILLSWITCH_DOWN="PostDown = iptables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true; iptables -F PIA_KILLSWITCH 2>/dev/null || true; iptables -X PIA_KILLSWITCH 2>/dev/null || true; ip6tables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true; ip6tables -F PIA_KILLSWITCH 2>/dev/null || true; ip6tables -X PIA_KILLSWITCH 2>/dev/null || true"
+      ''}
+      ${lib.optionalString (!cfg.killswitch) ''
+        KILLSWITCH_UP=""
+        KILLSWITCH_DOWN=""
+      ''}
+
       # Build WireGuard config
       EFFECTIVE_DNS="''${DNS_SERVERS:-$DNS_SERVER}"
       cat > "$WG_CONF" <<EOF
@@ -174,6 +185,8 @@ PrivateKey = $PRIVKEY
 DNS = $EFFECTIVE_DNS
 $LAN_BYPASS_UP
 $LAN_BYPASS_DOWN
+$KILLSWITCH_UP
+$KILLSWITCH_DOWN
 
 [Peer]
 PublicKey = $SERVER_PUBKEY
@@ -201,7 +214,7 @@ EOF
 EOF
       chmod 644 "$STATUS_DIR/status.json"
 
-      echo "PIA VPN successfully connected to $REGION_NAME ($SERVER_IP)!"
+      echo "PIA VPN successfully connected to $REGION_NAME ($SERVER_IP) with active killswitch!"
     '';
   };
 
@@ -215,7 +228,7 @@ EOF
       procps
       libnotify
     ];
-    text = '' # bash
+    text = ''        # bash
       action="''${1:-status}"
 
       case "$action" in
@@ -226,7 +239,7 @@ EOF
           pkill -RTMIN+11 waybar 2>/dev/null || true
           if [ -f /run/pia-vpn/status.json ]; then
             region=$(jq -r '.region_name // "PIA"' /run/pia-vpn/status.json 2>/dev/null || echo "PIA")
-            notify-send -u normal -a "PIA VPN" "VPN Connected" "Connected to $region" 2>/dev/null || true
+            notify-send -u normal -a "PIA VPN" "VPN Connected" "Connected to $region (Killswitch ON)" 2>/dev/null || true
           fi
           ;;
         disconnect|down|stop)
@@ -248,13 +261,14 @@ EOF
             pkill -RTMIN+11 waybar 2>/dev/null || true
             if [ -f /run/pia-vpn/status.json ]; then
               region=$(jq -r '.region_name // "PIA"' /run/pia-vpn/status.json 2>/dev/null || echo "PIA")
-              notify-send -u normal -a "PIA VPN" "VPN Connected" "Connected to $region" 2>/dev/null || true
+              notify-send -u normal -a "PIA VPN" "VPN Connected" "Connected to $region (Killswitch ON)" 2>/dev/null || true
             fi
           fi
           ;;
         status)
           if systemctl is-active --quiet pia-vpn; then
             echo "Status: Connected (Active)"
+            echo "Killswitch: Enabled (Strict firewall leak prevention)"
             if [ -f /run/pia-vpn/status.json ]; then
               jq . /run/pia-vpn/status.json
             fi
@@ -276,7 +290,7 @@ EOF
               region=$(jq -r '.region_name // "PIA"' /run/pia-vpn/status.json 2>/dev/null || echo "PIA")
               server=$(jq -r '.server_ip // ""' /run/pia-vpn/status.json 2>/dev/null || true)
             fi
-            tooltip=$(printf "PIA Connected\nRegion: %s\nServer: %s" "$region" "$server")
+            tooltip=$(printf "PIA Connected (Killswitch ON)\nRegion: %s\nServer: %s" "$region" "$server")
             jq -nc --arg text "VPN: ON" --arg tooltip "$tooltip" --arg class "connected" '{$text, $tooltip, $class}'
           elif systemctl is-failed --quiet pia-vpn; then
             tooltip="PIA Connection Failed"$'\n'"Check credentials in envFile or run: journalctl -u pia-vpn"
@@ -300,6 +314,12 @@ in {
       type = lib.types.bool;
       default = true;
       description = "Enable Private Internet Access (PIA) WireGuard service and Waybar toggle integration.";
+    };
+
+    killswitch = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable strict firewall killswitch to block all non-VPN traffic and prevent DNS/IPv6 leaks.";
     };
 
     envFile = lib.mkOption {
@@ -334,15 +354,21 @@ in {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = "${piaConnectScript}/bin/pia-vpn-connect";
-        ExecStop = pkgs.writeShellScript "pia-vpn-stop" ''
+        ExecStop = pkgs.writeShellScript "pia-vpn-stop" ''        # bash
           ${pkgs.wireguard-tools}/bin/wg-quick down /run/wireguard/pia.conf 2>/dev/null || true
+          ${pkgs.iptables}/bin/iptables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true
+          ${pkgs.iptables}/bin/iptables -F PIA_KILLSWITCH 2>/dev/null || true
+          ${pkgs.iptables}/bin/iptables -X PIA_KILLSWITCH 2>/dev/null || true
+          ${pkgs.iptables}/bin/ip6tables -D OUTPUT -j PIA_KILLSWITCH 2>/dev/null || true
+          ${pkgs.iptables}/bin/ip6tables -F PIA_KILLSWITCH 2>/dev/null || true
+          ${pkgs.iptables}/bin/ip6tables -X PIA_KILLSWITCH 2>/dev/null || true
           rm -rf /run/pia-vpn /run/wireguard/pia.conf
         '';
       };
     };
 
     # Polkit rule allowing members of the wheel group to manage pia-vpn unit without sudo
-    security.polkit.extraConfig = '' # bash
+    security.polkit.extraConfig = ''
       polkit.addRule(function(action, subject) {
         if (action.id == "org.freedesktop.systemd1.manage-units" &&
             action.lookup("unit") == "pia-vpn.service" &&
