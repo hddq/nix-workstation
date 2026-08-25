@@ -11,9 +11,24 @@
           layer = "top";
           position = "top";
           output = [osConfig.modules.desktop.hyprland.mainMonitor];
-          modules-left = ["hyprland/workspaces" "mpris"];
-          modules-center = ["custom/userhost"];
-          modules-right = ["load" "memory" "disk" "custom/vpn" "bluetooth" "wireplumber" "custom/brightness-9" "custom/brightness-3" "clock"];
+          modules-left = [
+            "hyprland/workspaces"
+            "custom/userhost"
+            "disk"
+            "memory"
+            "load"
+          ];
+          modules-center = [
+            "mpris"
+          ];
+          modules-right = [
+            "custom/vpn"
+            "bluetooth"
+            "wireplumber"
+            "custom/brightness-9"
+            "custom/brightness-3"
+            "clock"
+          ];
 
           "custom/userhost" = {
             exec = "echo $(whoami)@$(hostname)";
