@@ -11,7 +11,7 @@
     name = "feishin-webapp";
     desktopName = "Feishin (Web)";
     genericName = "Music Player";
-    exec = "helium --app=https://feishin.lab.hddq.org/ --class=feishin-webapp --name=feishin-webapp";
+    exec = "helium --profile-directory=\"Profile 2\" --app=https://feishin.lab.hddq.org/ --class=feishin-webapp --name=feishin-webapp";
     icon = "${feishin-icon}";
     terminal = false;
     categories = ["AudioVideo" "Audio" "Player" "Music"];
@@ -22,7 +22,7 @@
     name = "tradingview-webapp";
     desktopName = "TradingView (Web)";
     genericName = "Financial Charts";
-    exec = "helium --app=https://www.tradingview.com/chart/ --class=tradingview-webapp --name=tradingview-webapp";
+    exec = "helium --profile-directory=\"Profile 2\" --app=https://www.tradingview.com/chart/ --class=tradingview-webapp --name=tradingview-webapp";
     icon = "${pkgs.tradingview}/share/icons/hicolor/512x512/apps/tradingview.png";
     terminal = false;
     categories = ["Office" "Finance"];
