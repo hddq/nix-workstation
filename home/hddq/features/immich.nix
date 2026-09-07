@@ -1,33 +1,62 @@
 {
   pkgs,
   config,
+  lib,
   ...
-}: {
+}: let
+  watchers = {
+    screenshots = {
+      path = "${config.home.homeDirectory}/Pictures/Screenshots";
+      album = "Screenshots";
+    };
+    pictures = {
+      path = "${config.home.homeDirectory}/Pictures";
+      album = "Pictures";
+      ignore = "Screenshots/**";
+    };
+    movies = {
+      path = "${config.home.homeDirectory}/Movies";
+      album = "Movies";
+    };
+  };
+in {
   home.packages = [pkgs.immich-cli];
 
-  systemd.user.services.immich-uploader = {
+  systemd.user.services = lib.mapAttrs' (name: cfg:
+    lib.nameValuePair "immich-uploader-${name}" {
+      Unit = {
+        Description = "Immich Auto-Uploader (${name})";
+        After = ["network-online.target"];
+        Wants = ["network-online.target"];
+        PartOf = ["immich-uploader.target"];
+      };
+
+      Service = {
+        EnvironmentFile = "%h/nixos-config/.env";
+        ExecStart = lib.concatStringsSep " " ([
+            "${pkgs.immich-cli}/bin/immich"
+            "upload"
+            "--watch"
+            "--album-name"
+            cfg.album
+          ]
+          ++ lib.optionals (cfg ? ignore) ["-i" cfg.ignore]
+          ++ [cfg.path]);
+        Restart = "always";
+        RestartSec = "10s";
+      };
+
+      Install = {
+        WantedBy = ["default.target" "immich-uploader.target"];
+      };
+    })
+  watchers;
+
+  systemd.user.targets.immich-uploader = {
     Unit = {
-      Description = "Immich Auto-Uploader Service";
-      After = ["network-online.target"];
-      Wants = ["network-online.target"];
+      Description = "Immich Auto-Uploader Target";
+      Wants = builtins.map (name: "immich-uploader-${name}.service") (builtins.attrNames watchers);
     };
-
-    Service = {
-      # Ensure this path is correct relative to your home
-      EnvironmentFile = "%h/nixos-config/.env";
-
-      ExecStart = pkgs.writeShellScript "immich-watcher" ''        # bash
-               echo "🚀 Starting Immich Watchers..."
-               ${pkgs.immich-cli}/bin/immich upload --watch --album "Screenshots" ${config.home.homeDirectory}/Pictures/Screenshots &
-               ${pkgs.immich-cli}/bin/immich upload --watch --album "Pictures" ${config.home.homeDirectory}/Pictures &
-               ${pkgs.immich-cli}/bin/immich upload --watch --album "Movies" ${config.home.homeDirectory}/Movies &
-               wait
-      '';
-
-      Restart = "always";
-      RestartSec = "10s";
-    };
-
     Install = {
       WantedBy = ["default.target"];
     };
