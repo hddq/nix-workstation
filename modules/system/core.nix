@@ -23,14 +23,22 @@
     };
     nixpkgs.config.allowUnfree = true;
 
-    programs.nh = {
-      enable = true;
-      clean = {
+    programs = {
+      nh = {
         enable = true;
-        dates = "03:00";
-        extraArgs = "--keep-since 2d --keep 2";
+        clean = {
+          enable = true;
+          dates = "03:00";
+          extraArgs = "--keep-since 2d --keep 2";
+        };
+        flake = "/home/hddq/nixos-config";
       };
-      flake = "/home/hddq/nixos-config";
+
+      fish.enable = true;
+      vim = {
+        enable = true;
+        defaultEditor = true;
+      };
     };
 
     # --- Locale & Time ---
@@ -148,11 +156,5 @@
     systemd.user.tmpfiles.rules = [
       "e %h/Downloads/ - - - 7d"
     ];
-
-    programs.fish.enable = true;
-    programs.vim = {
-      enable = true;
-      defaultEditor = true;
-    };
   };
 }
