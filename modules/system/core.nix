@@ -130,7 +130,6 @@
 
     # --- System Packages (Root) ---
     environment.systemPackages = with pkgs; [
-      vim
       git
       wget
       curl
@@ -151,5 +150,9 @@
     ];
 
     programs.fish.enable = true;
+    programs.vim = {
+      enable = true;
+      defaultEditor = true;
+    };
   };
 }
