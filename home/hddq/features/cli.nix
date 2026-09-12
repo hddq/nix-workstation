@@ -19,6 +19,7 @@
     pkgs-unstable.antigravity-cli
     pkgs-unstable.codex
     pkgs-unstable.opencode
+    yazi
   ];
 
   xdg.configFile."xxh/config.xxhc" = {
