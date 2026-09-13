@@ -56,6 +56,10 @@
       LC_TIME = "pl_PL.UTF-8";
     };
 
+    environment.sessionVariables = {
+      TIME_STYLE = "long-iso";
+    };
+
     location = {
       provider = "manual";
       # Warsaw
