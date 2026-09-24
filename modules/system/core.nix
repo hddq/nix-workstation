@@ -154,6 +154,15 @@
     ];
 
     hardware.ledger.enable = true;
+    hardware.keyboard.qmk.enable = true;
+
+    services.udev.extraRules = ''
+      # Foostan Corne v3 (Vial)
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="4653", ATTRS{idProduct}=="0001", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+
+      # Generic Vial-compatible keyboards
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+    '';
 
     boot.tmp.cleanOnBoot = true;
 
