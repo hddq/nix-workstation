@@ -68,69 +68,69 @@
     };
 
     # --- Console & Keyboard ---
-    console.useXkbConfig = true;
+    # console.useXkbConfig = true;
     services = {
-      xserver.xkb = {
-        layout = "us";
-        variant = "colemak_dh";
-      };
+      # xserver.xkb = {
+      #   layout = "us";
+      #   variant = "colemak_dh";
+      # };
 
-      keyd = lib.mkIf config.modules.system.keyd.enable {
-        enable = true;
-        keyboards.default = {
-          ids = ["*"];
-          settings = {
-            global = {
-              overload_tap_timeout = "200";
-            };
-            main = {
-              capslock = "backspace";
-              leftalt = "overload(nav, leftalt)";
-              backspace = "capslock";
-
-              rightshift = "layer(rightshift_blocked)";
-            };
-
-            "rightshift_blocked:S" = {
-              "," = "macro()";
-              "." = "macro()";
-              "p" = "macro()";
-              "/" = "macro()";
-              ";" = "macro()";
-              "[" = "macro()";
-              "]" = "macro()";
-              "'" = "macro()";
-              "-" = "macro()";
-              "=" = "macro()";
-              "\\" = "macro()";
-              "enter" = "macro()";
-            };
-
-            "nav:A" = {
-              h = "left";
-              j = "down";
-              k = "up";
-              l = "right";
-              u = "home";
-              o = "end";
-              capslock = "C-backspace";
-
-              f1 = "A-f1";
-              f2 = "A-f2";
-              f3 = "A-f3";
-              f4 = "A-f4";
-              f5 = "A-f5";
-              f6 = "A-f6";
-              f7 = "A-f7";
-              f8 = "A-f8";
-              f9 = "A-f9";
-              f10 = "A-f10";
-              f11 = "A-f11";
-              f12 = "A-f12";
-            };
-          };
-        };
-      };
+      # keyd = lib.mkIf config.modules.system.keyd.enable {
+      #   enable = true;
+      #   keyboards.default = {
+      #     ids = ["*"];
+      #     settings = {
+      #       global = {
+      #         overload_tap_timeout = "200";
+      #       };
+      #       main = {
+      #         capslock = "backspace";
+      #         leftalt = "overload(nav, leftalt)";
+      #         backspace = "capslock";
+      #
+      #         rightshift = "layer(rightshift_blocked)";
+      #       };
+      #
+      #       "rightshift_blocked:S" = {
+      #         "," = "macro()";
+      #         "." = "macro()";
+      #         "p" = "macro()";
+      #         "/" = "macro()";
+      #         ";" = "macro()";
+      #         "[" = "macro()";
+      #         "]" = "macro()";
+      #         "'" = "macro()";
+      #         "-" = "macro()";
+      #         "=" = "macro()";
+      #         "\\" = "macro()";
+      #         "enter" = "macro()";
+      #       };
+      #
+      #       "nav:A" = {
+      #         h = "left";
+      #         j = "down";
+      #         k = "up";
+      #         l = "right";
+      #         u = "home";
+      #         o = "end";
+      #         capslock = "C-backspace";
+      #
+      #         f1 = "A-f1";
+      #         f2 = "A-f2";
+      #         f3 = "A-f3";
+      #         f4 = "A-f4";
+      #         f5 = "A-f5";
+      #         f6 = "A-f6";
+      #         f7 = "A-f7";
+      #         f8 = "A-f8";
+      #         f9 = "A-f9";
+      #         f10 = "A-f10";
+      #         f11 = "A-f11";
+      #         f12 = "A-f12";
+      #       };
+      #     };
+      #   };
+      # };
 
       journald.extraConfig = ''
         SystemMaxUse=128M
