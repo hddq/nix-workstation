@@ -44,7 +44,6 @@
 
         input = {
           kb_layout = "us";
-          kb_variant = "colemak_dh";
           accel_profile = "flat";
         };
 
