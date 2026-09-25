@@ -27,6 +27,7 @@
       piper
       anki
       hexchat
+      vial
     ];
     stateVersion = "25.11";
   };
