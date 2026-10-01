@@ -44,5 +44,11 @@ with lib; {
     };
 
     services.udev.packages = [pkgs.ddcutil];
+
+    services.flatpak.enable = true;
+    xdg.portal = {
+      enable = true;
+      extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    };
   };
 }
