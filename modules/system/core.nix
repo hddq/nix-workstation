@@ -138,6 +138,7 @@
       '';
 
       openssh.enable = true;
+      trezord.enable = true;
     };
 
     # --- System Packages (Root) ---

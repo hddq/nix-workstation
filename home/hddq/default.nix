@@ -24,6 +24,7 @@
       moonlight-qt
       gh
       ledger-live-desktop
+      trezor-suite
       piper
       anki
       hexchat
