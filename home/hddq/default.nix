@@ -7,6 +7,7 @@
     ./features/immich.nix
     ./features/desktop
     ./features/vscode.nix
+    ./features/activitywatch.nix
   ];
 
   home = {
