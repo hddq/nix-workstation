@@ -13,11 +13,21 @@
     };
 
     # --- Browsers ---
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    helium.url = "github:FKouhai/helium2nix/main";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+    helium = {
+      url = "github:FKouhai/helium2nix/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # --- VS Code Extensions ---
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
