@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, pkgs-unstable, ...}: {
   imports = [
     ./features/browser.nix
     ./features/media.nix
@@ -27,7 +27,7 @@
       ledger-live-desktop
       trezor-suite
       piper
-      anki
+      pkgs-unstable.anki
       hexchat
       vial
     ];
