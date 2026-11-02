@@ -114,6 +114,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-activitywatch": {
+      "locked": {
+        "lastModified": 1792881031,
+        "narHash": "sha256-T98j/fuCdZP05ytRDPcpzUcRagTmtKm4mWEU2awnXMI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9ff99ed51dc3bef5301b9d95ec8ffe7ee9651d71",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "pull/578526/head",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1793110635,
@@ -136,6 +152,7 @@
         "home-manager": "home-manager",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-activitywatch": "nixpkgs-activitywatch",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "zen-browser": "zen-browser"
       }

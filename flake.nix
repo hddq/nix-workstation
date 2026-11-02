@@ -28,6 +28,9 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # --- ActivityWatch (PR #578526) ---
+    nixpkgs-activitywatch.url = "github:NixOS/nixpkgs/pull/578526/head";
   };
 
   outputs = {
@@ -40,9 +43,24 @@
       inherit system;
     };
     # Create an overlay or just separate import for unstable
+    pkgs-activitywatch = import inputs.nixpkgs-activitywatch {
+      inherit system;
+      config.allowUnfree = true;
+    };
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
+      overlays = [
+        (final: prev: {
+          inherit (pkgs-activitywatch)
+            activitywatch
+            aw-server-rust
+            aw-qt
+            aw-notify
+            aw-watcher-afk
+            aw-watcher-window;
+        })
+      ];
     };
   in {
     nixosConfigurations = {

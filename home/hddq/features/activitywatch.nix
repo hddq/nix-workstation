@@ -1,10 +1,10 @@
-{pkgs, ...}: {
+{pkgs-unstable, ...}: {
   services.activitywatch = {
     enable = true;
-    package = pkgs.aw-server-rust;
+    package = pkgs-unstable.aw-server-rust;
     watchers = {
       awatcher = {
-        package = pkgs.awatcher;
+        package = pkgs-unstable.awatcher;
         executable = "awatcher";
       };
     };
