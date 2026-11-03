@@ -51,14 +51,16 @@
       inherit system;
       config.allowUnfree = true;
       overlays = [
-        (final: prev: {
-          inherit (pkgs-activitywatch)
+        (_final: _prev: {
+          inherit
+            (pkgs-activitywatch)
             activitywatch
             aw-server-rust
             aw-qt
             aw-notify
             aw-watcher-afk
-            aw-watcher-window;
+            aw-watcher-window
+            ;
         })
       ];
     };
