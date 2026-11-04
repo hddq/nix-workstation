@@ -61,6 +61,28 @@
             aw-watcher-afk
             aw-watcher-window
             ;
+          aw-sync = pkgs-activitywatch.rustPlatform.buildRustPackage {
+            pname = "aw-sync";
+            version = pkgs-activitywatch.aw-server-rust.version;
+            src = pkgs-activitywatch.aw-server-rust.src;
+            cargoHash = "sha256-x6Qp8nW3EbQbeVPrvV1UQdKMkU83qachrtNOGh30HWw=";
+            auditable = false;
+            nativeBuildInputs = [
+              pkgs-activitywatch.pkg-config
+              pkgs-activitywatch.perl
+            ];
+            buildInputs = [
+              pkgs-activitywatch.openssl
+            ];
+            cargoBuildFlags = ["--package" "aw-sync"];
+            cargoTestFlags = ["--package" "aw-sync"];
+            doCheck = false;
+            meta = {
+              description = "ActivityWatch sync daemon";
+              homepage = "https://github.com/ActivityWatch/aw-server-rust";
+              mainProgram = "aw-sync";
+            };
+          };
         })
       ];
     };
