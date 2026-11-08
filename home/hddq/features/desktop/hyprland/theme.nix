@@ -57,6 +57,7 @@
       settings = {
         background_opacity = "0.6";
         dynamic_background_opacity = true;
+        remember_window_size = false;
       };
     };
 
