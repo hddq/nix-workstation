@@ -30,6 +30,7 @@
       gh
       ledger-live-desktop
       trezor-suite
+      sparrow
       piper
       pkgs-unstable.anki
       hexchat
