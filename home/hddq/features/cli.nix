@@ -50,6 +50,7 @@
         ll = "eza -lah --group-directories-first --icons";
         nos = "nh os switch";
         nou = "nh os switch --update";
+        gwclean = "./gradlew clean; ./gradlew --stop; rm -rf .gradle build";
       };
     };
 
@@ -63,6 +64,7 @@
         co = "code";
         nos = "nh os switch";
         nou = "nh os switch --update";
+        gwclean = "./gradlew clean; ./gradlew --stop; rm -rf .gradle build";
       };
     };
 
