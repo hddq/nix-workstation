@@ -14,7 +14,7 @@
           modules-left = [
             "hyprland/workspaces"
             "custom/userhost"
-            "disk"
+            "custom/disk"
             "memory"
             "load"
           ];
@@ -54,10 +54,11 @@
             interval = 10;
           };
 
-          "disk" = {
-            format = "Disk: {percentage_used}%";
-            path = "/";
+          "custom/disk" = {
+            format = "Disk: {}";
+            exec = "df -h / | awk 'NR==2 {print $5}'";
             interval = 30;
+            tooltip = false;
           };
 
           "custom/brightness-3" = {
@@ -167,7 +168,7 @@
                #custom-userhost,
                #load,
                #memory,
-               #disk {
+               #custom-disk {
                    padding: 0 5px;
                    color: @white;
                }
@@ -224,7 +225,7 @@
                    border-bottom: 2px solid @org;
                }
 
-               #disk {
+               #custom-disk {
                    color: @teal;
                    border-bottom: 2px solid @teal;
                }
