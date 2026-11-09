@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   inputs,
   ...
 }: {
@@ -14,7 +13,13 @@
   config = {
     # --- Nix Settings ---
     nix = {
-      settings.experimental-features = ["nix-command" "flakes"];
+      channel.enable = false;
+      settings = {
+        experimental-features = ["nix-command" "flakes"];
+        auto-optimise-store = true;
+        min-free = 5 * 1024 * 1024 * 1024; # 5 GiB: trigger auto-GC when free space drops below 5 GiB
+        max-free = 15 * 1024 * 1024 * 1024; # Free up to 15 GiB when auto-GC triggers
+      };
       optimise.automatic = true;
       registry = {
         n.flake = inputs.nixpkgs;
@@ -58,6 +63,7 @@
 
     environment.sessionVariables = {
       TIME_STYLE = "long-iso";
+      GOFLAGS = "-modcacherw";
     };
 
     location = {
