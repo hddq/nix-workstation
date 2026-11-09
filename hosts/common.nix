@@ -51,7 +51,7 @@
     autoPrune = {
       enable = true;
       dates = "*-*-01/3";
-      flags = ["--all"];
+      flags = ["--all" "--build"];
     };
   };
 
@@ -61,7 +61,7 @@
         description = "Podman prune (rootless)";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${pkgs.lib.getExe pkgs.podman} system prune --all --force";
+          ExecStart = "${pkgs.lib.getExe pkgs.podman} system prune --all --build --force";
         };
       };
 
