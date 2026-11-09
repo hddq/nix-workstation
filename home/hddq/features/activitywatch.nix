@@ -33,4 +33,20 @@
       };
     };
   };
+
+  systemd.user.services.activitywatch-watcher-awatcher = {
+    Unit = {
+      Description = "ActivityWatch watcher 'awatcher'";
+      PartOf = ["graphical-session.target"];
+      After = ["graphical-session.target"];
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+    Service = {
+      Restart = "always";
+      RestartSec = "5s";
+    };
+    Install = {
+      WantedBy = ["graphical-session.target"];
+    };
+  };
 }
