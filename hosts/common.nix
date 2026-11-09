@@ -50,7 +50,7 @@
     dockerCompat = true;
     autoPrune = {
       enable = true;
-      dates = "weekly";
+      dates = "*-*-01/3";
       flags = ["--all"];
     };
   };
@@ -82,7 +82,7 @@
         description = "Podman prune timer (rootless)";
         wantedBy = ["timers.target"];
         timerConfig = {
-          OnCalendar = "weekly";
+          OnCalendar = "*-*-01/3";
           Persistent = true;
         };
       };
