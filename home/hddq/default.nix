@@ -21,16 +21,16 @@
     # --- User Packages ---
     # Only misc stuff here, major stuff goes to features
     packages = with pkgs; [
-      obsidian
+      pkgs-unstable.obsidian
       thunderbird
-      localsend
-      element-desktop
+      pkgs-unstable.localsend
+      pkgs-unstable.element-desktop
       ddcutil
       moonlight-qt
       gh
-      ledger-live-desktop
-      trezor-suite
-      sparrow
+      pkgs-unstable.ledger-live-desktop
+      pkgs-unstable.trezor-suite
+      pkgs-unstable.sparrow
       piper
       anki
       hexchat
