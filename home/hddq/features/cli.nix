@@ -17,8 +17,6 @@
     ldns
     exiftool
     pkgs-unstable.antigravity-cli
-    pkgs-unstable.codex
-    pkgs-unstable.opencode
     yazi
   ];
 
@@ -60,7 +58,6 @@
         ll = "ls -l";
         k = "kubectl";
         t = "tmux";
-        c = "codex";
         co = "code";
         nos = "nh os switch";
         nou = "nh os switch --update";
