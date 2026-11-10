@@ -32,7 +32,7 @@
       pkgs-unstable.trezor-suite
       pkgs-unstable.sparrow
       piper
-      anki
+      pkgs-unstable.anki-bin
       hexchat
       vial
     ];
