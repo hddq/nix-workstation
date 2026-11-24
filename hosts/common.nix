@@ -18,19 +18,24 @@
 
   zramSwap.enable = true;
 
-  services.syncthing = {
-    enable = true;
-    user = "hddq";
-    group = "users";
-    dataDir = "/home/hddq/Sync";
-    configDir = "/home/hddq/.config/syncthing";
-    openDefaultPorts = true;
-  };
+  services = {
+    syncthing = {
+      enable = true;
+      user = "hddq";
+      group = "users";
+      dataDir = "/home/hddq/Sync";
+      configDir = "/home/hddq/.config/syncthing";
+      openDefaultPorts = true;
+    };
 
-  services.bluehop = {
-    enable = true;
-    openFirewall = true;
-    user = "hddq";
+    bluehop = {
+      enable = true;
+      openFirewall = true;
+      user = "hddq";
+    };
+
+    # --- QEMU Guest Agent ---
+    qemuGuest.enable = true;
   };
 
   networking = {
@@ -110,9 +115,6 @@
     };
     users.hddq = import ../home/hddq/default.nix;
   };
-
-  # --- QEMU Guest Agent ---
-  services.qemuGuest.enable = true;
 
   system.stateVersion = "25.11";
 }
