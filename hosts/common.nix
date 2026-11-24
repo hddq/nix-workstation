@@ -30,6 +30,7 @@
   services.bluehop = {
     enable = true;
     openFirewall = true;
+    user = "hddq";
   };
 
   networking = {
