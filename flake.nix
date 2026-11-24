@@ -79,6 +79,7 @@
             ];
             buildInputs = [
               pkgs-activitywatch.openssl
+              pkgs-activitywatch.sqlite
             ];
             cargoBuildFlags = ["--package" "aw-sync"];
             cargoTestFlags = ["--package" "aw-sync"];
