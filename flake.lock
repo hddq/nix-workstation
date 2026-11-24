@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "bluehop": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795483771,
+        "narHash": "sha256-6/yThsXCDGysJMKvArmetohLD1sNSXH7bSlNdm9VPDs=",
+        "owner": "hddq",
+        "repo": "bluehop",
+        "rev": "c24bd9f742994f81b6d1343da4886360bca0fe78",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hddq",
+        "ref": "stable",
+        "repo": "bluehop",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -148,6 +169,7 @@
     },
     "root": {
       "inputs": {
+        "bluehop": "bluehop",
         "helium": "helium",
         "home-manager": "home-manager",
         "nix-vscode-extensions": "nix-vscode-extensions",

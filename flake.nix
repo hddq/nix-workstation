@@ -31,6 +31,12 @@
 
     # --- ActivityWatch (PR #578526) ---
     nixpkgs-activitywatch.url = "github:NixOS/nixpkgs/pull/578526/head";
+
+    # --- BlueHop ---
+    bluehop = {
+      url = "github:hddq/bluehop/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

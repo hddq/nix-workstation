@@ -11,6 +11,7 @@
     ../modules/system/network-shares.nix
     ../modules/system/pia-vpn.nix
     inputs.home-manager.nixosModules.home-manager
+    inputs.bluehop.nixosModules.default
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -24,6 +25,11 @@
     dataDir = "/home/hddq/Sync";
     configDir = "/home/hddq/.config/syncthing";
     openDefaultPorts = true;
+  };
+
+  services.bluehop = {
+    enable = true;
+    openFirewall = true;
   };
 
   networking = {
