@@ -3,12 +3,13 @@
 
   inputs = {
     # --- Official NixOS Packages ---
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # --- Home Manager ---
+    # release-26.11 is not branched yet; master tracks 26.11
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

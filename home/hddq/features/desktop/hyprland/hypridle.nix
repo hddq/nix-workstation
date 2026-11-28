@@ -10,7 +10,7 @@
       settings = {
         general = {
           before_sleep_cmd = "loginctl lock-session";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
+          after_sleep_cmd = "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'";
           ignore_dbus_inhibit = true;
           ignore_systemd_inhibit = true;
           lock_cmd = "pidof hyprlock || hyprlock";
@@ -29,8 +29,8 @@
           ++ [
             {
               timeout = 5;
-              on-timeout = "pidof hyprlock && hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
+              on-timeout = "pidof hyprlock && hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'";
+              on-resume = "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'";
               ignore_inhibit = true;
             }
             {
@@ -41,8 +41,8 @@
           ++ lib.optionals osConfig.modules.desktop.hyprland.monitorSleep [
             {
               timeout = 330;
-              on-timeout = "${is-playing} || hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
+              on-timeout = "${is-playing} || hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'";
+              on-resume = "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'";
             }
           ];
       };

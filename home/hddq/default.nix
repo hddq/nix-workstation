@@ -33,7 +33,6 @@
       pkgs-unstable.sparrow
       piper
       pkgs-unstable.anki-bin
-      hexchat
       vial
     ];
     stateVersion = "25.11";
