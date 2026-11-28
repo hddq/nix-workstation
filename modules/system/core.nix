@@ -138,10 +138,10 @@
       #   };
       # };
 
-      journald.extraConfig = ''
-        SystemMaxUse=128M
-        MaxRetentionSec=7d
-      '';
+      journald.settings.Journal = {
+        SystemMaxUse = "128M";
+        MaxRetentionSec = "7d";
+      };
 
       openssh.enable = true;
       trezord.enable = true;

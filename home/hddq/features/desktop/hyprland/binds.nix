@@ -4,82 +4,92 @@
   pkgs,
   pkgs-unstable,
   ...
-}: {
+}: let
+  lua = lib.generators.mkLuaInline;
+  bind = keys: action: {
+    _args = [keys action];
+  };
+  bindOpts = keys: action: opts: {
+    _args = [keys action opts];
+  };
+  mod = key: lua ''mainMod .. " + ${key}"'';
+  exec = cmd: lua "hl.dsp.exec_cmd(${lib.generators.toLua {} cmd})";
+in {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
-    wayland.windowManager.hyprland.settings = {
-      bind = [
-        "$mainMod, Q, exec, $terminal"
-        "$mainMod, C, killactive,"
-        "$mainMod, Pause, exit,"
-        "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-        "$mainMod, R, exec, rofi -show drun"
+    wayland.windowManager.hyprland.settings.bind =
+      [
+        (bind (mod "Q") (lua "hl.dsp.exec_cmd(terminal)"))
+        (bind (mod "C") (lua "hl.dsp.window.close()"))
+        (bind (mod "Pause") (lua "hl.dsp.exit()"))
+        (bind (mod "V") (exec "cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
+        (bind (mod "R") (exec "rofi -show drun"))
 
         # Move focus with mainMod + arrow keys
-        "$mainMod, left, movefocus, l"
-        "$mainMod, right, movefocus, r"
-        "$mainMod, up, movefocus, u"
-        "$mainMod, down, movefocus, d"
-
-        # Switch workspaces with mainMod + [0-9]
-        "$mainMod, 1, workspace, 1"
-        "$mainMod, 2, workspace, 2"
-        "$mainMod, 3, workspace, 3"
-        "$mainMod, 4, workspace, 4"
-        "$mainMod, 5, workspace, 5"
-        "$mainMod, 6, workspace, 6"
-        "$mainMod, 7, workspace, 7"
-        "$mainMod, 8, workspace, 8"
-        "$mainMod, 9, workspace, 9"
-        "$mainMod, 0, workspace, 10"
-
-        # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "$mainMod SHIFT, 1, movetoworkspace, 1"
-        "$mainMod SHIFT, 2, movetoworkspace, 2"
-        "$mainMod SHIFT, 3, movetoworkspace, 3"
-        "$mainMod SHIFT, 4, movetoworkspace, 4"
-        "$mainMod SHIFT, 5, movetoworkspace, 5"
-        "$mainMod SHIFT, 6, movetoworkspace, 6"
-        "$mainMod SHIFT, 7, movetoworkspace, 7"
-        "$mainMod SHIFT, 8, movetoworkspace, 8"
-        "$mainMod SHIFT, 9, movetoworkspace, 9"
-        "$mainMod SHIFT, 0, movetoworkspace, 10"
-
+        (bind (mod "left") (lua ''hl.dsp.focus({ direction = "left" })''))
+        (bind (mod "right") (lua ''hl.dsp.focus({ direction = "right" })''))
+        (bind (mod "up") (lua ''hl.dsp.focus({ direction = "up" })''))
+        (bind (mod "down") (lua ''hl.dsp.focus({ direction = "down" })''))
+      ]
+      # Switch workspaces with mainMod + [0-9]
+      ++ builtins.genList (
+        i: let
+          ws = i + 1;
+          key = toString (lib.mod ws 10);
+        in
+          bind (mod key) (lua "hl.dsp.focus({ workspace = ${toString ws} })")
+      )
+      10
+      # Move active window to a workspace with mainMod + SHIFT + [0-9]
+      ++ builtins.genList (
+        i: let
+          ws = i + 1;
+          key = toString (lib.mod ws 10);
+        in
+          bind (mod "SHIFT + ${key}") (lua "hl.dsp.window.move({ workspace = ${toString ws} })")
+      )
+      10
+      ++ [
         # Screenshots
-        "$mainMod SHIFT, S, exec, hyprshot -m region -o ~/Pictures/Screenshots --freeze"
+        (bind (mod "SHIFT + S") (exec "hyprshot -m region -o ~/Pictures/Screenshots --freeze"))
 
         # Waybar
-        "$mainMod, B, exec, pkill -SIGUSR1 waybar"
+        (bind (mod "B") (exec "pkill -SIGUSR1 waybar"))
 
         # Toggle Split
-        "$mainMod, S, layoutmsg, togglesplit"
+        (bind (mod "S") (lua ''hl.dsp.layout("togglesplit")''))
 
         # Lock Screen
-        "$mainMod, L, exec, loginctl lock-session"
+        (bind (mod "L") (exec "loginctl lock-session"))
 
         # Media Keys
-        ", XF86AudioMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"
-        ", XF86AudioMicMute, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --input-volume mute-toggle"
-        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
-        ", XF86AudioPause, exec, ${pkgs.playerctl}/bin/playerctl pause"
-        ", XF86AudioStop, exec, ${pkgs.playerctl}/bin/playerctl stop"
-        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
-        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
-      ];
+        (bind "XF86AudioMute" (exec "${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume mute-toggle"))
+        (bind "XF86AudioMicMute" (exec "${pkgs-unstable.swayosd}/bin/swayosd-client --input-volume mute-toggle"))
+        (bind "XF86AudioPlay" (exec "${pkgs.playerctl}/bin/playerctl play-pause"))
+        (bind "XF86AudioPause" (exec "${pkgs.playerctl}/bin/playerctl pause"))
+        (bind "XF86AudioStop" (exec "${pkgs.playerctl}/bin/playerctl stop"))
+        (bind "XF86AudioNext" (exec "${pkgs.playerctl}/bin/playerctl next"))
+        (bind "XF86AudioPrev" (exec "${pkgs.playerctl}/bin/playerctl previous"))
 
-      bindn = [
         # Caps Lock OSD (pass-through)
-        ", Caps_Lock, exec, sleep 0.1 && ${pkgs-unstable.swayosd}/bin/swayosd-client --caps-lock"
-      ];
+        (bindOpts "Caps_Lock" (exec "sleep 0.1 && ${pkgs-unstable.swayosd}/bin/swayosd-client --caps-lock") {
+          non_consuming = true;
+        })
 
-      binde = [
-        ", XF86AudioRaiseVolume, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume raise"
-        ", XF86AudioLowerVolume, exec, ${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume lower"
-      ];
+        # Volume (repeating)
+        (bindOpts "XF86AudioRaiseVolume" (exec "${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume raise") {
+          repeating = true;
+        })
+        (bindOpts "XF86AudioLowerVolume" (exec "${pkgs-unstable.swayosd}/bin/swayosd-client --output-volume lower") {
+          repeating = true;
+        })
 
-      bindm = [
-        "$mainMod, mouse:272, movewindow"
-        "$mainMod, mouse:273, resizewindow"
+        # Mouse move/resize
+        (bindOpts (mod "mouse:272") (lua "hl.dsp.window.drag()") {
+          mouse = true;
+        })
+        (bindOpts (mod "mouse:273") (lua "hl.dsp.window.resize()") {
+          mouse = true;
+        })
       ];
-    };
   };
 }

@@ -6,26 +6,74 @@
 }: {
   config = lib.mkIf (osConfig.modules.desktop.env == "hyprland") {
     wayland.windowManager.hyprland.settings = {
-      decoration = {
-        rounding = 8;
-        blur = {
+      config = {
+        decoration = {
+          rounding = 8;
+          blur = {
+            enabled = true;
+            size = 6;
+            passes = 2;
+          };
+        };
+        animations = {
           enabled = true;
-          size = 6;
-          passes = 2;
         };
       };
-      animations = {
-        enabled = true;
-        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-        animation = [
-          "windows, 1, 1.75, myBezier"
-          "windowsOut, 1, 1.75, default, popin 80%"
-          "border, 1, 2.5, default"
-          "borderangle, 1, 2, default"
-          "fade, 1, 1.75, default"
-          "workspaces, 1, 1.5, default"
-        ];
-      };
+
+      curve = [
+        {
+          _args = [
+            "myBezier"
+            {
+              type = "bezier";
+              points = [
+                [0.05 0.9]
+                [0.1 1.05]
+              ];
+            }
+          ];
+        }
+      ];
+
+      animation = [
+        {
+          leaf = "windows";
+          enabled = true;
+          speed = 1.75;
+          bezier = "myBezier";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 1.75;
+          bezier = "default";
+          style = "popin 80%";
+        }
+        {
+          leaf = "border";
+          enabled = true;
+          speed = 2.5;
+          bezier = "default";
+        }
+        {
+          leaf = "borderangle";
+          enabled = true;
+          speed = 2;
+          bezier = "default";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 1.75;
+          bezier = "default";
+        }
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 1.5;
+          bezier = "default";
+        }
+      ];
     };
 
     gtk = {
@@ -42,6 +90,7 @@
     };
 
     home.pointerCursor = {
+      enable = true;
       gtk.enable = true;
       package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
@@ -65,7 +114,7 @@
       enable = true;
       package = pkgs.rofi;
       theme = "DarkBlue";
-      extraConfig = {
+      settings = {
         modi = "drun,run,window";
         show-icons = true;
         terminal = "kitty";

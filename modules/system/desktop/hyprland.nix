@@ -9,9 +9,16 @@ with lib; let
 in {
   options.modules.desktop.hyprland = {
     monitors = mkOption {
-      type = types.listOf types.str;
-      default = [",preferred,auto,1"];
-      description = "Hyprland monitor configurations";
+      type = types.listOf (types.attrsOf types.anything);
+      default = [
+        {
+          output = "";
+          mode = "preferred";
+          position = "auto";
+          scale = 1;
+        }
+      ];
+      description = "Hyprland monitor configurations (hl.monitor specs)";
     };
     mainMonitor = mkOption {
       type = types.str;
@@ -19,9 +26,9 @@ in {
       description = "The primary monitor name, used for things like waybar";
     };
     workspaces = mkOption {
-      type = types.listOf types.str;
+      type = types.listOf (types.attrsOf types.anything);
       default = [];
-      description = "Hyprland workspace configurations";
+      description = "Hyprland workspace configurations (hl.workspace_rule specs)";
     };
     monitorSleep = mkOption {
       type = types.bool;

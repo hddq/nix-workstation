@@ -13,44 +13,63 @@
 
     wayland.windowManager.hyprland = {
       enable = true;
-      configType = "hyprlang";
+      configType = "lua";
       settings = {
-        "$mainMod" = "SUPER";
+        mainMod._var = "SUPER";
+        terminal._var = "kitty";
+
         monitor = osConfig.modules.desktop.hyprland.monitors;
+        workspace_rule = osConfig.modules.desktop.hyprland.workspaces;
 
-        "exec-once" = [
-          "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY"
-          "hyprctl setcursor Adwaita 24"
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-          "hyprpaper"
-          "${pkgs-unstable.swayosd}/bin/swayosd-server"
-          "wl-paste --type text --watch cliphist store"
-          "wl-paste --type image --watch cliphist store"
-          "waybar"
-        ];
-
-        workspace = osConfig.modules.desktop.hyprland.workspaces;
-
-        "$terminal" = "kitty";
-
-        general = {
-          gaps_in = 2;
-          gaps_out = 0;
+        on = {
+          _args = [
+            "hyprland.start"
+            (lib.generators.mkLuaInline ''
+              function()
+                hl.exec_cmd("hyprctl setcursor Adwaita 24")
+                hl.exec_cmd("${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1")
+                hl.exec_cmd("hyprpaper")
+                hl.exec_cmd("${pkgs-unstable.swayosd}/bin/swayosd-server")
+                hl.exec_cmd("wl-paste --type text --watch cliphist store")
+                hl.exec_cmd("wl-paste --type image --watch cliphist store")
+                hl.exec_cmd("waybar")
+              end
+            '')
+          ];
         };
 
-        dwindle = {
-          preserve_split = true;
+        config = {
+          general = {
+            gaps_in = 2;
+            gaps_out = 0;
+          };
+
+          dwindle = {
+            preserve_split = true;
+          };
+
+          input = {
+            kb_layout = "us";
+            accel_profile = "flat";
+          };
         };
 
-        input = {
-          kb_layout = "us";
-          accel_profile = "flat";
-        };
-
-        windowrule = [
-          "workspace 1, match:class (zen-beta)"
-          "workspace 11, match:class (obsidian)"
-          "workspace 11, match:initial_class ^(chrome-www.tradingview.com.*)$"
+        window_rule = [
+          {
+            name = "zen-beta-workspace-1";
+            match.class = "(zen-beta)";
+            workspace = 1;
+          }
+          {
+            name = "obsidian-workspace-11";
+            match.class = "(obsidian)";
+            workspace = 11;
+          }
+          {
+            name = "tradingview-workspace-11";
+            match.initial_class = "^(chrome-www.tradingview.com.*)$";
+            workspace = 11;
+          }
         ];
       };
     };
