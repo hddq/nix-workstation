@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795483771,
-        "narHash": "sha256-6/yThsXCDGysJMKvArmetohLD1sNSXH7bSlNdm9VPDs=",
+        "lastModified": 1795595845,
+        "narHash": "sha256-UuxBYyn26V9FV7ppd4MhLXEl/1woZfnG9RRciUeaT94=",
         "owner": "hddq",
         "repo": "bluehop",
-        "rev": "c24bd9f742994f81b6d1343da4886360bca0fe78",
+        "rev": "b35b550381de886dd566b622a0b0410de3784318",
         "type": "github"
       },
       "original": {
